@@ -1,0 +1,19 @@
+POST http://localhost:3000/api/interviews (admin)
+
+topic:React Js
+question:What is JSX?A
+answer:
+level:beginner
+
+PUT http://localhost:3000/api/interviews/{id} (admin)
+
+topic:React Js
+question:What is JSX?A
+answer: (img or txt)
+level:beginner
+
+GET http://localhost:3000/api/interviews
+
+GET http://localhost:3000/api/interviews/{id}
+
+DELETE http://localhost:3000/api/interviews/{id} (admin)

@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Resume</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+@page { size: A4 portrait; margin: 0; }
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#efefee;font-family:'Poppins',system-ui,Arial;color:#222}
+
+.sheet {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 33% 2px 1fr;
+  grid-template-rows: 1fr auto;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.divider{grid-column:2/3;grid-row:1/2;background:#edece7;width:100%;}
+
+.left {
+  grid-column:1/2;
+  grid-row:1/2;
+  background:#3c443d;
+  color:#fff;
+  padding:60px 26px 28px 26px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap:18px;
+}
+
+.avatar {
+  width: 180px; height: 220px;
+  border-radius:6px;
+  background: linear-gradient(180deg,#e5dfc9,#d9cfb2);
+  color:#6a7c6c;
+  display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:700;
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  flex-shrink:0;
+}
+
+.left .name{font-size:35px;font-weight:700;text-align:center;color:#fff;margin-top:4px;}
+.left .role{font-size:18px;color:#fff;text-transform:uppercase;letter-spacing:1px;}
+
+.left-section{
+  width:100%;
+  text-align:left;
+  margin-top:16px;
+}
+.left-section h4{
+  margin:0 0 8px 0;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:6px;font-weight:600;
+}
+.left-section p, .left-section li{
+  margin:6px 0;font-size:13px;color:#fff;line-height:1.45;
+}
+.left-section ul{
+  padding-left:0;
+  margin:0;
+  list-style: none;
+  display:flex;
+  flex-direction: column;
+  gap:4px;
+}
+.left-section ul li{
+  font-size:13px;
+}
+
+.right {
+  grid-column:3/4;
+  grid-row:1/2;
+  padding:28px 34px;
+  display:flex;
+  flex-direction: column;
+  gap:12px;
+}
+
+.section-heading { margin-top:12px;margin-bottom:8px;font-size:20px;color:#3c443d;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;border-bottom:1px solid #ecebe5;padding-bottom:8px;display:inline-block; }
+
+.item { margin-bottom:10px; break-inside: avoid; page-break-inside: avoid; }
+.item-row { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+.item-title { font-weight:600; font-size:15px; color:#222; margin:0; }
+.item-date { font-size:12px; color:#8f8f8f; white-space:nowrap; }
+.item-desc { margin:8px 0 0 0; color:#444; font-size:14px; line-height:1.6 }
+.item-list { margin:8px 0 12px 0; padding:0; color:#444; list-style:none; }
+.item-list li{ margin-bottom:6px; font-size:13px; line-height:1.5 }
+
+.footer {
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  background:#fbf6ec;
+  border-top:1px solid #eee;
+  padding:12px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#6a7c6c;
+  font-size:13px;
+}
+
+@media print {
+  body{background:#fff;}
+  .sheet {
+    transform: scale(0.96);
+    transform-origin: top left;
+    width:210mm;
+    height:297mm;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- Left Sidebar -->
+  <aside class="left">
+    <div class="avatar">{{personal.initials}}</div>
+    <div class="left-section" style="text-align:center">
+      <div class="name">{{personal.name}}</div>
+      <div class="role">{{personal.role}}</div>
+    </div>
+
+    <div class="left-section">
+      <h4>Contact</h4>
+      <ul>
+        <li>📞 {{personal.phone}}</li>
+        <li>✉️ {{personal.email}}</li>
+        <li>🏠 {{personal.address}}</li>
+        {{#each personal.socialLinks}}
+        <li><a href="{{url}}" target="_blank">{{key}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="left-section">
+      <h4>Skills</h4>
+      <ul>
+        {{#each skills}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="left-section">
+      <h4>Languages</h4>
+      <ul>
+        {{#each languages}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="left-section">
+      <h4>Certifications</h4>
+      <ul>
+        {{#each certifications}}
+        <li>{{courseName}} – {{institution}} ({{startDate}} – {{#if present}}Present{{else}}{{endDate}}{{/if}})</li>
+        {{/each}}
+      </ul>
+    </div>
+  </aside>
+
+  <div class="divider"></div>
+
+  <!-- Right Content -->
+  <main class="right">
+
+    <div>
+      <div class="section-heading">Summary</div>
+      <p class="item-desc">{{personal.summary}}</p>
+    </div>
+
+    <div>
+      <div class="section-heading">Experience</div>
+      {{#each experience}}
+      <div class="item">
+        <div class="item-row">
+          <div class="item-title">{{role}} - {{companyName}}</div>
+          <div class="item-date">{{startDate}} – {{#if present}}Present{{else}}{{endDate}}{{/if}}</div>
+        </div>
+        <div class="item-desc">{{description}}</div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div>
+      <div class="section-heading">Education</div>
+      {{#each education}}
+      <div class="item">
+        <div class="item-row">
+          <div class="item-title">{{college}}</div>
+          <div class="item-date">{{startDate}} – {{#if isPresent}}Present{{else}}{{endDate}}{{/if}}</div>
+        </div>
+        <div class="item-desc">{{courseName}} {{branch}} — CGPA: {{cgpa}}</div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div>
+      <div class="section-heading">Projects</div>
+      {{#each projects}}
+      <div class="item">
+        <div class="item-title">{{name}}</div>
+        <div class="item-desc">{{description}}  
+          <strong>Tech:</strong> {{techStack}}  
+          {{#each links}} <a href="{{url}}" target="_blank">{{key}}</a> {{/each}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div>
+      <div class="section-heading">Roles</div>
+      <ul class="item-list">
+        {{#each roles}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+
+the above this login auto cursol
+
+
+import React from 'react'
+import login from "../assets/login_img.png"
+
+const AutoCarousel = () => {
+  return (
+    <div className="w-[90%] ml-18 h-full bg-gradient-to-br from-[#97d5f9] to-[#289edc] rounded-l-[40px] flex items-center justify-center">
+      <img src={login} alt="Login"  className='w-[500px] h-[700px] border'/>
+    </div>
+  )
+}
+
+export default AutoCarousel

@@ -1,0 +1,109 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: #ffffff;
+    }
+    .header img {
+      height: 100px;
+      max-width: 200px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+    }
+    h2, p {
+      margin-bottom: 15px;
+    }
+    .highlight {
+      background: #FFF4F4;
+      padding: 15px;
+      border-left: 4px solid #DC2626;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+    .footer {
+      background: #EFF6FF;
+      color: #000000;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .footer a {
+      margin: 0 8px;
+      text-decoration: none;
+    }
+    .footer a img {
+      width: 22px;
+      height: 22px;
+      filter: invert(100%);
+    }
+    .footer a:hover img {
+      filter: invert(70%);
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation" class="container">
+    <tr>
+      <td class="header">
+        <img src="cid:companyLogo" alt="{{companyName}} Logo" />
+      </td>
+    </tr>
+    <tr>
+      <td class="content">
+        <h2>Hello {{applicantName}},</h2>
+        <div class="highlight">
+          <p>We wanted to let you know that your application for the position of <strong>{{jobTitle}}</strong> at <strong>{{companyName}}</strong> has been withdrawn from our system.</p>
+        </div>
+        <p>This could have been due to one of the following reasons:</p>
+        <ul>
+          <li>You requested to withdraw your application.</li>
+          <li>Our team processed a removal based on updated recruitment needs.</li>
+          <li>Your profile no longer meets the job requirements.</li>
+        </ul>
+        <p>If this withdrawal was unintentional or you believe it was made in error, please contact our recruitment team immediately at <a href="mailto:{{supportEmail}}">{{supportEmail}}</a> so we can review the situation.</p>
+        <p>You are always welcome to apply for other opportunities with <strong>{{companyName}}</strong>. You can browse open positions on our careers page here: <a href="{{careersPage}}" target="_blank">{{careersPage}}</a></p>
+        <p>Thank you for your interest in joining our team, and we wish you the very best in your job search journey.</p>
+        <p>Best regards,<br /><strong>{{companyName}} Recruitment Team</strong></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <p>© 2025 {{companyName}}. All rights reserved.</p>
+        <a href="https://www.facebook.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconFacebook" alt="Facebook" />
+        </a>
+        <a href="https://twitter.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconTwitter" alt="Twitter" />
+        </a>
+        <a href="https://linkedin.com/company/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconLinkedin" alt="LinkedIn" />
+        </a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

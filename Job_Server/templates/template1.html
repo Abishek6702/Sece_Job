@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Template 1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    .container {
+      width: 210mm;
+      min-height: 297mm;
+      margin: auto;
+      background: #fff;
+      display: flex;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    }
+
+    .main {
+      flex: 2;
+      padding: 25px 35px;
+    }
+
+    .sidebar {
+      flex: 1;
+      background: #f0f2f5;
+      padding: 25px 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 15px 0 5px 0;
+      border-bottom: 2px solid #333;
+      padding-bottom: 3px;
+    }
+    h3 {
+      font-size: 16px;
+      margin: 8px 0 3px 0;
+    }
+    p {
+      margin: 3px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    ul {
+      margin: 5px 0 10px 20px;
+      font-size: 14px;
+    }
+
+    .job-title, .degree {
+      font-weight: bold;
+    }
+    .date {
+      font-style: italic;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .sidebar h2 {
+      border-bottom: none;
+      margin-top: 20px;
+    }
+    .sidebar ul {
+      margin: 5px 0 15px 15px;
+    }
+
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    @media print {
+      body { background: none; }
+      .container { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LEFT MAIN -->
+    <div class="main">
+      <h1>{{personal.name}}</h1>
+      <p><strong>{{personal.role}}</strong></p>
+      <p>{{personal.summary}}</p>
+
+      <h2>Work Experience</h2>
+      {{#each experience}}
+      <div>
+        <p class="job-title">{{role}} - {{companyName}}</p>
+        <p class="date">{{startDate}} – {{#if present}}Present{{else}}{{endDate}}{{/if}} | {{location}}</p>
+        <ul>
+          <li>{{description}}</li>
+        </ul>
+      </div>
+      {{/each}}
+
+      <h2>Education</h2>
+      {{#each education}}
+      <div>
+        <p class="degree">{{courseName}} {{branch}}</p>
+        <p>{{college}} | {{location}}</p>
+        <p class="date">{{startDate}} – {{#if isPresent}}Present{{else}}{{endDate}}{{/if}} | CGPA: {{cgpa}}</p>
+      </div>
+      {{/each}}
+
+      <h2>Projects</h2>
+      {{#each projects}}
+      <div>
+        <p class="degree">{{name}}</p>
+        <p class="date">{{techStack}} | {{startDate}} – {{#if present}}Present{{else}}{{endDate}}{{/if}}</p>
+        <p>{{description}}</p>
+        {{#each links}}
+        <p>🔗 <a href="{{url}}">{{key}}</a></p>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="sidebar">
+      <h2>Contact</h2>
+      <p>📞 {{personal.phone}}</p>
+      <p>✉️ {{personal.email}}</p>
+      <p>📍 {{personal.address}}</p>
+      {{#each personal.socialLinks}}
+      <p><a href="{{url}}">{{key}}</a></p>
+      {{/each}}
+
+      <h2>Skills</h2>
+      <ul>
+        {{#each skills}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+
+      <h2>Certifications</h2>
+      {{#each certifications}}
+      <p>{{courseName}} – {{institution}}</p>
+      <p class="date">{{startDate}} – {{#if present}}Present{{else}}{{endDate}}{{/if}}</p>
+      {{/each}}
+
+      <h2>Roles</h2>
+      <ul>
+        {{#each roles}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+
+      <h2>Languages</h2>
+      {{#each languages}}
+      <p>{{this}}</p>
+      {{/each}}
+    </div>
+  </div>
+</body>
+</html>

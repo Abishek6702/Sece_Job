@@ -1,0 +1,124 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; 
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+    .header img {
+      height: 200px;
+      width: 300px;
+      margin-bottom: 10px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+    }
+    .welcome-text {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      color: #222222;
+      margin-bottom: 10px;
+    }
+    .details {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+    .details p {
+      margin: 5px 0;
+    }
+    .message-box {
+      background-color: #f8f8f8;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      white-space: pre-line;
+    }
+    .footer {
+      background-color: #EFF6FF;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .footer-text {
+      color: #000000;
+    }
+    .footer a {
+      margin: 0 8px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .footer a img {
+      width: 22px;
+      height: 22px;
+    }
+    @media screen and (max-width: 480px) {
+      .welcome-text {
+        font-size: 18px;
+      }
+      .header img {
+        height: 120px;
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation" class="container">
+    <tr>
+      <td class="header">
+        <img src="cid:topLogo" alt="Company Logo" />
+      </td>
+    </tr>
+    <tr>
+      <td class="content">
+        <div class="welcome-text">New Contact Message</div>
+        <div class="details">
+          <p><strong>Name:</strong> {{name}}</p>
+          <p><strong>Email:</strong> {{email}}</p>
+          <p><strong>Phone:</strong> {{phone}}</p>
+          <p><strong>Message:</strong></p>
+          <div class="message-box">{{message}}</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <p class="footer-text">© 2025 Your Company. All rights reserved.</p>
+        <a href="https://www.facebook.com/YourCompany" target="_blank">
+          <img src="cid:iconFacebook" alt="Facebook" />
+        </a>
+        <a href="https://twitter.com/YourCompany" target="_blank">
+          <img src="cid:iconTwitter" alt="Twitter" />
+        </a>
+        <a href="https://linkedin.com/company/YourCompany" target="_blank">
+          <img src="cid:iconLinkedin" alt="LinkedIn" />
+        </a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

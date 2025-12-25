@@ -1,0 +1,153 @@
+Company_Listing
+
+    1. POST - http://localhost:3000/api/companies
+    
+    company_name:TechCorp
+    company_type:public
+    location:New York, USA
+    followers_count:1000
+    employee_count:200
+    site_url:https://techcorp.com
+    about:{"content": "Leading AI company.", "contact_info": "info@techcorp.com", "stock_value": "$500M"}
+    people:[{"content": "CEO: John Doe", "category": "Leadership"}, {"content": "CTO: Jane Smith", "category": "Tech"}]
+    company_logo:
+    images:
+
+    2. GET - http://localhost:3000/api/companies
+    3. GET - http://localhost:3000/api/companies/{id}
+    4. DELETE - http://localhost:3000/api/companies/{id}
+    5. PUT - http://localhost:3000/api/companies/{id}
+
+Job_Listing
+
+    1. POST - http://localhost:3000/api/jobs
+
+    companyId:67de4a5f0f7a778a2ff9e466
+    companyName:TechCorp
+    position:Web Developer
+    applyMethod:https://apply.here
+    location:New York, USA
+    workplace:Remote
+    whereYouWillDoIt:Home Office
+    interviewProcess:Online Interview → Technical Test → HR Round
+    reportingTo:["CTO","Engineering Manager"]
+    team:Backend Team
+    salaryRange:$80,000 - $120,000
+    tools:["Node.js","MongoDB","React"]
+    additionalBenefits:["Health Insurance","Stock Options"]
+    jobDescription:[{ "title": "About the Role", "content": ["Develop applications", "Fix bugs"] }, { "title": "Key Responsibilities", "content": ["Write clean code", "Collaborate with teams"] }]
+    requirements:[{ "title": "Must Have", "content": ["5+ ye ars experience", "Expert in Node.js"] }]
+    companyOverview:{ "founded": "2010", "type": "Private", "industry": "Software", "sector": "Tech", "revenue": "500M", "size": "200-300 employees" }
+    deadlineToApply:2025-04-01
+    companyLogo:
+    companyImages:
+
+    2. GET - http://localhost:3000/api/jobs
+    3. GET - http://localhost:3000/api/jobs/{id}
+    4. DELETE - http://localhost:3000/api/jobs/{id}
+    5. PUT - http://localhost:3000/api/jobs/{id}
+
+Template_Creation
+
+    1. POST - http://localhost:3000/api/templates
+
+    {
+    "name": "Yuvaraj test-3 Template",
+    "htmlContent": "<html><head><style>{{{theme.cssContent}}}</style></head><body><img src='{{image}}' alt='User Image' style='width:150px; height:150px; border-radius:50%;'/><h1>{{name}}</h1>\n<p>{{email}} | {{phone}} | \n  <a href=\"{{linkedin}}\">LinkedIn</a> | \n  <a href=\"{{github}}\">GitHub</a> | \n  <a href=\"{{portfolio}}\">Portfolio</a>\n</p>\n\n<h2>Experience</h2>\n<p><strong>{{experience.position}} - {{experience.company}}</strong></p>\n<p>{{experience.date}}</p>\n<p>{{experience.description}}</p>\n\n<h2>Projects</h2>\n{{#each projects}}\n<p><strong>{{this.title}}</strong></p>\n<p>{{this.date}}</p>\n<ul>\n  {{#each this.description}}\n  <li>{{this}}</li>\n  {{/each}}\n</ul>\n{{/each}}\n\n<h2>Skills</h2>\n<p><strong>Frontend Development:</strong> {{skills.frontend}}</p>\n<p><strong>Backend Development:</strong> {{skills.backend}}</p>\n<p><strong>Programming Languages:</strong> {{skills.languages}}</p>\n\n<h2>Certifications</h2>\n<ul>\n  {{#each certifications}}\n  <li>{{this}}</li>\n  {{/each}}\n</ul>\n\n<h2>Education</h2>\n{{#each education}}\n<p><strong>{{this.degree}}</strong> - {{this.institution}} ({{this.year}})</p>\n<p>{{this.score}}</p>\n{{/each}}\n</body></html>"
+    }
+
+    2. GET - http://localhost:3000/api/templates
+    3. GET - http://localhost:3000/api/templates/{id}
+    4. DELETE - http://localhost:3000/api/templates/{id}
+    5. PUT - http://localhost:3000/api/templates/{id}
+
+Theme_Creation
+
+    1. POST - http://localhost:3000/api/themes
+
+    {
+    "name": "Yuavraj  test -3 Theme",
+    "cssContent": "body { font-family: Times New Roman, serif; margin: 40px; color: #333; } h1, h2 { color: #007bff; } a { color: #007bff; text-decoration: none; } p { margin: 5px 0; } ul { margin-left: 20px; } strong { color: #000; }"
+    }
+
+    2. GET - http://localhost:3000/api/themes
+    3. GET - http://localhost:3000/api/themes/{id}
+    4. DELETE - http://localhost:3000/api/themes/{id}
+    5. PUT - http://localhost:3000/api/themes/{id}
+
+Resume_Creation
+
+    1. POST - http://localhost:3000/api/resumes
+
+    {
+  "templateId": "",
+  "themeId": "",
+  "userData": {
+    "image": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png",
+    "name": "Kannan K",
+    "email": "aravinth@gmail.com",
+    "phone": "8098161038",
+    "linkedin": "https://linkedin.com/in/abhishek",
+    "github": "https://github.com/abhishek",
+    "portfolio": "https://abhishekportfolio.com",
+    "experience": {
+      "position": "Software Developer",
+      "company": "Quantum Pulse",
+      "date": "November 2024 - Present",
+      "description": "Developing full-stack web applications using the MERN stack and conducting manual testing.Developing full-stack web applications using the MERN stack and conducting manual testingDeveloping full-stack web applications using the MERN stack and conducting manual testingDeveloping full-stack web applications using the MERN stack and conducting manual testing"
+    },
+    "projects": [
+      {
+        "title": "Bus Ticket Reservation System",
+        "date": "November 2024 - Present",
+        "description": [
+          "Developed a responsive application using React and Tailwind.",
+          "Implemented back-end using Node.js, Express.js, and MongoDB.",
+          "Designed authentication and real-time availability features.Developing full-stack web applications using the MERN stack and conducting manual testingDeveloping full-stack web applications using the MERN stack and conducting manual testing"
+        ]
+      },
+      {
+        "title": "Agro-King",
+        "description": [
+          "Built a web app using Flask and MySQL.",
+          "Integrated AI for plant disease detection and pesticide recommendationsDeveloping full-stack web applications using the MERN stack and conducting manual testing."
+        ]
+      }
+    ],
+    "skills": {
+      "frontend": "React.js, Tailwind CSS, HTML, CSS, JavaScript, Figma",
+      "backend": "Node.js, Express.js, SQL, MongoDB",
+      "languages": "C, Python, Java"
+    },
+    "education": [
+      {
+        "degree": "B.E Electronics and Communication Engineering",
+        "institution": "Sri Eshwar College of Engineering, Coimbatore",
+        "year": "2019-2023",
+        "score": "CGPA: 8.4"
+      },
+      {
+        "degree": "High School",
+        "institution": "Dr.V. Gengusamy Naidu. Mat. Hr. Sec. School, Coimbatore",
+        "year": "2018-2019",
+        "score": "Percentage: 69%"
+      },
+      {
+        "degree": "Secondary School",
+        "institution": "Amrita Vidyalayam (CBSE), Coimbatore",
+        "year": "2016-2017",
+        "score": "CGPA: 7.2"
+      }
+    ]
+  },
+  "customColors": {
+    "primaryColor": "#ff80ed",
+    "secondaryColor": "#D42E83",
+    "fontFamily": "Times New Roman"
+  }
+}
+
+    2. GET - http://localhost:3000/api/resumes
+    3. GET - http://localhost:3000/api/resumes/{id}
+    4. DELETE - http://localhost:3000/api/resumes/{id}
+    5. PUT - http://localhost:3000/api/resumes/{id}

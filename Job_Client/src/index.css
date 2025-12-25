@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cedarville+Cursive&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cedarville+Cursive&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+
+@import "tailwindcss";
+
+.lato {
+  font-family: "Lato";
+}
+
+::-webkit-inner-spin-button {
+  display: none;
+}
+
+body {
+  font-family: "Lato";
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.joblist_model_bg {
+  background-color: rgba(27, 27, 27, 0.918);
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+.tint {
+  background-color: rgba(0, 0, 0, 0.493);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.background {
+  background: #243153;
+  background: linear-gradient(
+    165deg,
+    rgba(36, 49, 83, 1) 0%,
+    rgba(60, 94, 135, 0.89) 50%
+  );
+}
+.hero {
+  background-color: #f7fcfb;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.image {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: scroll 20s linear infinite;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+
+@layer utilities {
+  .clip-path-chevron {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 18px) 0,
+      100% 50%,
+      calc(100% - 18px) 100%,
+      0 100%,
+      18px 50%
+    );
+  }
+}
+
+
+

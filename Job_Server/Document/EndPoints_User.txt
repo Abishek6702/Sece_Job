@@ -1,0 +1,61 @@
+POST http://localhost:3000/api/auth/register
+{
+  "name": "Abishek",
+  "email": "abishekkrishna69@gmail.com",
+  "phone": "8098616038",
+  "password": "12345"
+}
+
+POST http://localhost:3000/api/auth/verify-otp
+{
+  "email": "abishektkrishna@gmail.com",
+  "otp": "950054"
+}
+
+POST http://localhost:3000/api/auth/login
+{
+  "email": "abishekkrishna69@gmail.com",
+  "password": "12345"
+}
+POST http://localhost:3000/api/auth/forgot-password
+{
+    "email" : "abishekkrishnat@gmail.com"
+}
+POST http://localhost:3000/api/auth/verify-reset-otp
+{
+    "email" : "abishekkrishnat@gmail.com",
+    "otp": "897956"
+}
+POST http://localhost:3000/api/auth/reset-password
+{
+    "email" : "abishekkrishnat@gmail.com",
+   "newPassword": "12345"
+}
+POST http://localhost:3000/api/auth/resend-verification-otp
+{
+  "email": "abishekkrishna69@gmail.com"
+}
+GET http://localhost:3000/api/admin/dashboard
+
+POST http://localhost:3000/api/user/submit-data
+Employer
+{
+  "role": "employer",
+  "companyName": "Tech Corp",
+  "industry": "Software",
+  "companySize": "500-1000",
+  "website": "https://techcorp.com"
+}
+Employee
+{
+  "role": "employee",
+  "experience": "2 years",    
+  "skills": ["Node.js", "MongoDB"],
+  "education": "B.Tech in Computer Science"
+}
+GET http://localhost:3000/api/profile
+GET http://localhost:3000/api/profile/id
+PUT http://localhost:3000/api/profile/id
+DELETE http://localhost:3000/api/profile/id
+
+put delete has role based access

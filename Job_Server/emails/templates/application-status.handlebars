@@ -1,0 +1,109 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0; padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: #ffffff;
+    }
+    .header img {
+      height: 100px;
+      max-width: 200px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+      line-height: 1.5;
+    }
+    h2, p {
+      margin-bottom: 15px;
+    }
+    .highlight {
+      background: #EFF6FF;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .footer {
+      background: #EFF6FF;
+      color: #000000;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .footer a {
+      margin: 0 8px;
+      text-decoration: none;
+    }
+    .footer a img {
+      width: 22px;
+      height: 22px;
+      filter: invert(100%);
+    }
+    .footer a:hover img {
+      filter: invert(70%);
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation" class="container">
+    <tr>
+      <td class="header">
+        <img src="cid:companyLogo" alt="{{companyName}} Logo" />
+      </td>
+    </tr>
+    <tr>
+      <td class="content">
+        <h2>Hello {{applicantName}},</h2>
+        
+        
+
+        <p>
+          This update is regarding your recent application with <strong>{{companyName}}</strong>.
+          We truly appreciate the time, effort, and interest you have shown in applying for this role.
+        </p>
+<div class="highlight">
+          {{{bodyContent}}}
+        </div>
+        <p>
+          If you have any questions or need further clarification regarding this update,
+          please don't hesitate to reach out to our recruitment team.
+        </p>
+
+        <p>We wish you all the best in your career journey.</p>
+
+        <p>Best regards,<br/><strong>{{companyName}} Recruitment Team</strong></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <p>© 2025 {{companyName}}. All rights reserved.</p>
+        <a href="https://www.facebook.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconFacebook" alt="Facebook" />
+        </a>
+        <a href="https://twitter.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconTwitter" alt="Twitter" />
+        </a>
+        <a href="https://linkedin.com/company/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconLinkedin" alt="LinkedIn" />
+        </a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

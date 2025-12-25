@@ -1,0 +1,168 @@
+ POST http://localhost:3000/api/courses
+
+{
+  "title": "Full Stack Web Development",
+  "isPaid": true,
+  "price": 3999,
+  "status": "Pending",
+  "ranking": [
+    {
+      "type": "BestSeller",
+      "value": 1
+    },
+    {
+      "type": "Trending",
+      "value": 3
+    }
+  ],
+  "createdBy": "67e62c3809b0b287dbe3eb2a",
+  "language": ["English", "Hindi"],
+  "totalRatings": 245,
+  "totalLearners": 1500,
+  "relatedTopics": ["JavaScript", "Node.js", "React", "MongoDB"],
+  "whatYouWillLearn": [
+    "Build responsive web applications",
+    "Master backend development with Node.js",
+    "Create dynamic frontends with React",
+    "Work with databases using MongoDB"
+  ],
+  "includes": [
+    "100+ video lectures",
+    "Downloadable resources",
+    "Lifetime access",
+    "Certificate of completion"
+  ],
+  "companiesOffering": ["Google", "Microsoft", "Amazon"],
+  "demoVideo": "https://example.com/videos/demo-fullstack.mp4",
+  "requirements": [
+    "Basic knowledge of programming",
+    "Laptop or desktop with internet access"
+  ],
+  "description": "Learn full stack development with hands-on projects.",
+  "coveringTopics": [
+    "HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"
+  ],
+  "targetAudience": "Aspiring web developers, students, or professionals looking to upskill.",
+  "instructorDetails": "67e62c3809b0b287dbe3eb2a"
+}
+
+{
+  "title": "Introduction to Python Programming",
+  "isPaid": false,
+  "price": 0,
+  "status": "Pending",
+  "ranking": [
+    {
+      "type": "Trending",
+      "value": 2
+    }
+  ],
+  "createdBy": "67e62c3809b0b287dbe3eb2a",
+  "language": [
+    "English"
+  ],
+  "totalRatings": 120,
+  "totalLearners": 5000,
+  "relatedTopics": [
+    "Python",
+    "Programming Basics",
+    "Data Structures"
+  ],
+  "whatYouWillLearn": [
+    "Understand Python fundamentals",
+    "Learn data types and control structures",
+    "Implement basic algorithms",
+    "Develop small projects"
+  ],
+  "includes": [
+    "30+ video lectures",
+    "Quizzes and assignments",
+    "Downloadable resources",
+    "Certificate of completion"
+  ],
+  "companiesOffering": [
+    "IBM",
+    "Capgemini",
+    "Deloitte"
+  ],
+  "demoVideo": "https://example.com/videos/demo-python.mp4",
+  "requirements": [
+    "No prior programming experience needed",
+    "A computer with internet access"
+  ],
+  "description": "A beginner-friendly course to start your coding journey with Python.",
+  "coveringTopics": [
+    "Variables and Data Types",
+    "Loops and Functions",
+    "File Handling",
+    "Basic Problem Solving"
+  ],
+  "targetAudience": "Beginners, students, and career changers.",
+  "instructorDetails": "67e62c3809b0b287dbe3eb2a",
+  "studentsEnrolled": [],
+  "userReviews": []
+}
+
+
+ PATCH http://localhost:3000/api/courses/67e7915a15b7242c65dc6556/approve
+
+ {
+  "status": "Approved"
+}
+
+PUT http://localhost:3000/api/courses/67e7915a15b7242c65dc6556
+
+{
+  "title": "Updated Full Stack Web Development",
+  "isPaid": true,
+  "price": 3500
+}
+
+
+
+
+                      ----------LESSONS END POINT -----------------------
+
+post http://localhost:3000/api/lessons
+{
+  "courseId": "67e7915a15b7242c65dc6556",  
+  "title": "Lesson 2",
+  "duration": "15min",
+  "qnaSections": [],
+  "videoIds": [],  
+  "students": 0,  
+  "isCompleted": false
+}
+
+DELETE  http://localhost:3000/api/lessons/67ee2b3eea388477506b91f2
+
+GET http://localhost:3000/api/lessons/course/{course ID} (Get All Lessons of particular course)
+
+GET http://localhost:3000/api/lessons/67ee2b88ea388477506b91f8
+
+PUT http://localhost:3000/api/lessons/67ebb49a4331850f29b8ada4  (Lesson Update)
+{
+    "title": "Updated lesson ",
+    "duration": "10 min"
+}
+
+
+                          ---------------------------VIDEO SECTION-----------------------------
+
+
+POST http://localhost:3000/api/videos/upload/67ebb49a4331850f29b8ada4
+
+title:introduction to full stack development 1
+description:in this lesson we are going to learn basic python  program
+duration:2:00
+video: { video }
+resources: {document}
+
+
+GET http://localhost:3000/api/videos/lesson/{Lesson Id} {Get All Videos}
+
+GET http://localhost:3000/api/videos/67ef79a61ac3e50936e0f136
+
+DELETE http://localhost:3000/api/videos/67ef8153c3338246047f8a7d
+
+PUT http://localhost:3000/api/videos/67ef795a1ac3e50936e0f128 

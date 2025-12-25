@@ -1,0 +1,38 @@
+{
+  "name": "abishek_job_portal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.8.4",
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "form-data": "^4.0.2",
+    "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.10.0",
+    "mongoose": "^8.12.1",
+    "multer": "^1.4.5-lts.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.10.0",
+    "nodemailer-express-handlebars": "^7.0.0",
+    "pdf-parse": "^1.1.1",
+    "pdf-parse-fixed": "^1.1.1",
+    "pdfkit": "^0.17.1",
+    "puppeteer": "^24.17.1",
+    "socket.io": "^4.8.1"
+  }
+}

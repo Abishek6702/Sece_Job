@@ -1,0 +1,15 @@
+post http://localhost:3000/api/applications
+jobId:67fe2eb7099eae4fbd484dae
+companyId:67fe2e37099eae4fbd484d94
+name:Abi
+email:abishekkrishnat@gmail.com
+phone:8098616038
+experience:3
+relocation:true
+datesAvailable:["2025-05-01", "2025-05-02", "2025-05-03"]
+pastWorkExperience:[{"companyName": "X Corp", "location": "NY", "position": "Dev"}]
+resume:
+
+get by id http://localhost:3000/api/applications/680a26541bcd0b45c066220b
+delete http://localhost:3000/api/applications/680a26541bcd0b45c066220b
+get all http://localhost:3000/api/applications

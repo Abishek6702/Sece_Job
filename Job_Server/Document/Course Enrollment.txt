@@ -1,0 +1,14 @@
+POST http://localhost:3000/api/enrollment/enroll
+{
+  "courseId": "67efc33147f9b21580041284"
+}
+
+
+GET http://localhost:3000/api/enrollment/my-courses (to get the course that user have enrolled, user id will be taken token)
+
+GET http://localhost:3000/api/enrollment/{courseId}/students (to get students who have enrolled in the particular courses)
+
+POST http://localhost:3000/api/enrollment/unenroll
+{
+  "courseId": "67efc33147f9b21580041284"
+}

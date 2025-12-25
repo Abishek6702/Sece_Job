@@ -1,0 +1,67 @@
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: auto; background: #fff; border-radius: 8px; overflow: hidden; }
+    .header { text-align: center; padding: 20px; background: #fff; }
+    .header img { height: 100px; max-width: 200px; object-fit: contain; margin-bottom: 10px; }
+    .content { padding: 20px; color: #333; }
+    h2, p { margin-bottom: 15px; }
+    .highlight { background: #EFF6FF; padding: 15px; border-left: 4px solid #2563eb; border-radius: 4px; margin-bottom: 20px; }
+    ul { padding-left: 20px; margin-bottom: 20px; }
+    .footer { background: #EFF6FF; color: #000; text-align: center; padding: 20px; font-size: 12px; font-weight: 600; }
+    .footer a { margin: 0 8px; text-decoration: none; }
+    .footer a img { width: 22px; height: 22px; filter: invert(100%); }
+    .footer a:hover img { filter: invert(70%); }
+  </style>
+</head>
+<body>
+  <table role="presentation" class="container">
+    <tr>
+      <td class="header">
+        <img src="cid:companyLogo" alt="{{companyName}} Logo" />
+      </td>
+    </tr>
+    <tr>
+      <td class="content">
+        <h2>Hello {{applicantName}},</h2>
+        <p>Thank you for applying for the position of <strong>{{jobTitle}}</strong> at <strong>{{companyName}}</strong>. We’re excited to review your application and learn more about your skills and experience.</p>
+        
+        <div class="highlight">
+          <p><strong>What happens next?</strong></p>
+          <ul>
+            <li>Our recruitment team will review your application within the next few days.</li>
+            <li>If shortlisted, you will be contacted via email or phone for the next steps.</li>
+            <li>You can track your application status anytime through your <strong>{{companyName}}</strong> account or JobPortal.</li>
+          </ul>
+        </div>
+
+        <p>Here are a few tips while you wait:</p>
+        <ul>
+          <li>Keep your phone and email notifications on for any updates.</li>
+          <li>Review the job description again and prepare for possible interview questions.</li>
+          <li>Explore our company website to learn more about our culture and projects.</li>
+        </ul>
+
+        <p>We appreciate the time and effort you put into your application. Regardless of the outcome, we will notify you of our decision.</p>
+        
+        <p>Best regards,<br /><strong>{{companyName}} Recruitment Team</strong></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <p>© 2025 {{companyName}}. All rights reserved.</p>
+        <a href="https://www.facebook.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconFacebook" alt="Facebook" />
+        </a>
+        <a href="https://twitter.com/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconTwitter" alt="Twitter" />
+        </a>
+        <a href="https://linkedin.com/company/YourCompany" target="_blank" rel="noopener">
+          <img src="cid:iconLinkedin" alt="LinkedIn" />
+        </a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
