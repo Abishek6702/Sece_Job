@@ -33,7 +33,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://job-portal-client-eosin-chi.vercel.app",
   "https://job-portal-client-git-main-abisheks-projects-b2a0a1da.vercel.app",
-  "https://job-client-seven.vercel.app"
+  "https://job-client-seven.vercel.app",
+  "http://51.20.73.126"
 ];
 
 // Socket.IO setup
