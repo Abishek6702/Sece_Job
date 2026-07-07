@@ -73,7 +73,7 @@ const Resume_Builder = () => {
   const [loadingPreview, setLoadingPreview] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/templates/")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/templates/`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch templates");
         return res.json();
@@ -126,7 +126,7 @@ const Resume_Builder = () => {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/resumes/", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resumes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -177,7 +177,7 @@ const Resume_Builder = () => {
   };
 
   try {
-    const res = await fetch("http://localhost:3000/api/resumes/", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resumes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

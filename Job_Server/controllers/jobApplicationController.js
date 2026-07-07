@@ -113,7 +113,7 @@ exports.getAllApplications = async (req, res) => {
         },
       });
     const applicationsWithDownloadLink = applications.map((app) => {
-      const resumeDownloadLink = `http://localhost:3000/download/${app._id}`;
+      const resumeDownloadLink = `${process.env.URI}/download/${app._id}`;
       return {
         ...app.toObject(),
 

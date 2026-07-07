@@ -12,7 +12,7 @@ const ResumePreview = ({previewTrigger }) => {
   const [loadingPreview, setLoadingPreview] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/templates/")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/templates/`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch templates");
         return res.json();
@@ -78,7 +78,7 @@ const ResumePreview = ({previewTrigger }) => {
     const templatePath = selectedTemplate.path;
     console.log("Encoded template path:", templatePath);
 
-    const fetchUrl = `http://localhost:3000/api/resumes/preview?userId=${userId}&templatePath=${templatePath}`;
+    const fetchUrl = `${import.meta.env.VITE_API_BASE_URL}/api/resumes/preview?userId=${userId}&templatePath=${templatePath}`;
     console.log("Fetching resume preview from URL:", fetchUrl);
 
     setLoadingPreview(true);
@@ -111,7 +111,7 @@ const ResumePreview = ({previewTrigger }) => {
       ) : selectedTemplate?.previewImage ? (
         <div className="">
           <img
-            src={`http://localhost:3000${selectedTemplate.previewImage}`}
+            src={`${import.meta.env.VITE_API_BASE_URL}${selectedTemplate.previewImage}`}
             alt={selectedTemplate.name}
             className="rounded"
           />

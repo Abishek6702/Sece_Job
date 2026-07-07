@@ -6,7 +6,7 @@ const Resume = () => {
   const [templates, setTemplates] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/templates/")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/templates/`)
       .then((res) => res.json())
       .then((data) => {
         setTemplates(data);
@@ -42,7 +42,7 @@ const Resume = () => {
               onClick={() => handleTemplateSelect(template.id)}
             >
               <img
-                src={`http://localhost:3000${template.previewImage}`}
+                src={`${import.meta.env.VITE_API_BASE_URL}${template.previewImage}`}
                 alt={`Resume Template ${template.id}`}
                 className="w-full object-cover"
               />

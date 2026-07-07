@@ -3,6 +3,7 @@ const path = require('path');
 const hbs = require('nodemailer-express-handlebars').default; // Use .default as needed
 
 // Create transporter with your Gmail credentials
+console.log(process.env.EMAIL_USER, "hi");
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {

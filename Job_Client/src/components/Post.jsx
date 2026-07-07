@@ -150,12 +150,12 @@ const Post = ({ post, profile }) => {
     <div className="bg-white rounded-2xl shadow p-4 mb-4">
       <div className="flex items-center gap-3 mb-3">
         <img
-          src={post.author.onboarding.profileImage}
+          src={post.author?.onboarding?.profileImage}
           alt={post.author?.name || "User"}
           className="w-10 h-10 rounded-full object-cover"
         />
         {
-            console.log("Amt",post.author.onboarding.profileImage)
+            console.log("Amt",post.author?.onboarding?.profileImage)
 
         }
         <div>
