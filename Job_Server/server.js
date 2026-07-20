@@ -30,12 +30,8 @@ const app = express();
 const server = http.createServer(app);
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://job-portal-client-eosin-chi.vercel.app",
-  "https://job-portal-client-git-main-abisheks-projects-b2a0a1da.vercel.app",
-  "https://job-client-seven.vercel.app",
-  "http://51.20.73.126",
-  'http://13.53.159.153'
+  "http://localhost:4000",
+   "http://localhost:5174",
 ];
 
 // Socket.IO setup
