@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Loader, Eye, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import EmployeeDrawer from "./EmployeeDrawer.jsx";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,8 +42,9 @@ const EmployeesList = () => {
       setLoading(false);
     }
   };
-  const handleView = (id) => {
-    navigate(`/admin/employees/${id}`);
+  const handleView = (employee) => {
+    setSelectedEmployee(employee);
+    setIsDrawerOpen(true);
   };
 
   const handleResume = (resumeUrl) => {
@@ -50,6 +55,16 @@ const EmployeesList = () => {
 
     window.open(resumeUrl, "_blank");
   };
+
+  const filteredEmployees = employees.filter((employee) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+      employee?.name?.toLowerCase().includes(search) ||
+      employee?.email?.toLowerCase().includes(search) ||
+      employee?.phone?.toLowerCase().includes(search)
+    );
+  });
 
   if (loading) {
     return (
@@ -62,20 +77,31 @@ const EmployeesList = () => {
 
   return (
     <div className="">
-      <div className="flex  items-center gap-2 mb-6">
-        <h2 className="text-xl font-semibold text-gray-700">Employees</h2>
-        <span className="bg-blue-100 text-blue-800 px-2 py-0 rounded-full  font-semibold">
-          {employees.length}
-        </span>
+      <div className="flex  items-center justify-between gap-2 mb-6">
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-semibold text-gray-700">Employees</h2>
+          <span className="bg-blue-100 text-blue-800 px-2 py-0 rounded-full  font-semibold">
+            {filteredEmployees.length}
+          </span>
+        </div>
+        <div className="w-full md:w-80">
+          <input
+            type="text"
+            placeholder="Search by name, email or phone..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
       </div>
 
-      {employees.length === 0 ? (
+      {filteredEmployees.length === 0 ? (
         <div className="p-8 text-center text-gray-500">
           <p className="text-lg">No employees found</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 ">
             <thead className="bg-gray-50 sticky top-0">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -91,11 +117,11 @@ const EmployeesList = () => {
                 </th>
 
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Status
+                  Skills
                 </th>
 
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Joined
+                  Onboarded
                 </th>
 
                 <th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -109,24 +135,28 @@ const EmployeesList = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-100 bg-white">
-              {employees.map((employee) => (
+              {filteredEmployees.map((employee) => (
                 <tr
                   key={employee._id}
-                  className="hover:bg-blue-50 transition-colors duration-200"
+                  className="hover:bg-gray-50 cursor-pointer transition-colors duration-200"
                 >
                   {/* Employee */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-11 w-11 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                        {employee.name?.charAt(0).toUpperCase()}
-                      </div>
+                      <img
+                        src={employee?.onboarding?.profileImage}
+                        alt={employee.name}
+                        className="h-11 w-11 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold"
+                      />
 
                       <div>
                         <p className="font-semibold text-gray-900">
                           {employee.name}
                         </p>
 
-                        <p className="text-xs text-gray-500">Employee</p>
+                        <p className="text-xs text-gray-500">
+                          {employee?.onboarding?.preferredRoles[0]}
+                        </p>
                       </div>
                     </div>
                   </td>
@@ -143,26 +173,54 @@ const EmployeesList = () => {
 
                   {/* Status */}
                   <td className="px-6 py-4">
-                    <span
-                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                        employee.isVerified
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                    >
-                      {employee.isVerified ? "Verified" : "Pending"}
-                    </span>
+                    {employee?.onboarding?.skills?.length > 0 ? (
+                      <div className="flex items-center gap-2">
+                        {/* First Skill */}
+                        <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
+                          {employee.onboarding.skills[0]}
+                        </span>
+
+                        {/* Remaining Count */}
+                        {employee.onboarding.skills.length > 1 && (
+                          <div className="relative group">
+                            <span className="cursor-pointer inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700">
+                              +{employee.onboarding.skills.length - 1}
+                            </span>
+
+                            {/* Tooltip */}
+                            <div className="absolute left-0 top-8 z-20 hidden min-w-[180px] rounded-lg border border-gray-200 bg-white p-3 shadow-lg group-hover:block">
+                              <div className="flex flex-wrap gap-2">
+                                {employee.onboarding.skills
+                                  .slice(1)
+                                  .map((skill, index) => (
+                                    <span
+                                      key={index}
+                                      className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
+                                    >
+                                      {skill}
+                                    </span>
+                                  ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-500">No skills listed</p>
+                    )}
                   </td>
 
                   {/* Joined */}
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {new Date(employee.createdAt).toLocaleDateString()}
+                    {new Date(
+                      employee?.onboarding?.createdAt,
+                    ).toLocaleDateString()}
                   </td>
 
                   {/* Resume */}
                   <td className="px-6 py-4 text-center">
                     <button
-                      onClick={() => handleResume(employee.resume)}
+                      onClick={() => handleResume(employee?.onboarding?.resume)}
                       className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition"
                       title="View Resume"
                     >
@@ -173,7 +231,7 @@ const EmployeesList = () => {
                   {/* Actions */}
                   <td className="px-6 py-4 text-center">
                     <button
-                      onClick={() => handleView(employee._id)}
+                      onClick={() => handleView(employee)}
                       className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
                       title="View Employee"
                     >
@@ -186,6 +244,11 @@ const EmployeesList = () => {
           </table>
         </div>
       )}
+      <EmployeeDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        employee={selectedEmployee}
+      />
     </div>
   );
 };

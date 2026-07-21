@@ -49,13 +49,13 @@ const registerUser = async (req, res, role) => {
       return res.status(400).json({ message: "User already exists" });
 
     // For employers, set isApproved to false; for others, default is true
-    const newUser = new User({ 
-      name, 
-      email, 
-      phone, 
-      password, 
+    const newUser = new User({
+      name,
+      email,
+      phone,
+      password,
       role,
-      isApproved: role === "employer" ? false : true
+      isApproved: role === "employer" ? false : true,
     });
     await newUser.save();
 
@@ -78,7 +78,7 @@ const registerUser = async (req, res, role) => {
           path: path.join(__dirname, "../emails/assets/top-logo.png"),
           cid: "topLogo",
         },
-      ]
+      ],
     );
     res
       .status(201)
@@ -103,7 +103,7 @@ exports.verifyOtp = async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
       { email },
       { $set: { isVerified: true } },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedUser)
@@ -136,10 +136,10 @@ exports.login = async (req, res) => {
 
     // Check if employer is approved
     if (user.role === "employer" && !user.isApproved) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         message: "Your account is pending admin approval",
         status: "PENDING_APPROVAL",
-        rejectionReason: user.approvalRejectionReason
+        rejectionReason: user.approvalRejectionReason,
       });
     }
 
@@ -162,7 +162,7 @@ exports.login = async (req, res) => {
         connections: user.connections || [], // This contains only the job IDs (ObjectIds)
       },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
     // Send the response with the token
@@ -192,21 +192,20 @@ exports.sendResetOTP = async (req, res) => {
       email,
       "Password Reset OTP",
       "forgot-password",
-      { name:user.name, otp },
+      { name: user.name, otp },
       [
         {
           filename: "forgot-password-logo.png",
           path: path.join(
             __dirname,
-            "../emails/assets/forgot-password-logo.png"
+            "../emails/assets/forgot-password-logo.png",
           ),
           cid: "forgotPasswordLogo",
         },
-      ]
+      ],
     );
     res.json({ message: "OTP sent to your email" });
   } catch (error) {
-    
     res.status(500).json({ message: error.message });
   }
 };
@@ -321,7 +320,7 @@ exports.loginInstructor = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
     res.status(200).json({ message: "Instructor login successful", token });
   } catch (error) {
@@ -372,7 +371,7 @@ exports.getAllUsers = async (req, res) => {
 
     // Fetch all users
     const users = await User.find({ _id: { $ne: currentUserId } }).populate(
-      "savedJobs"
+      "savedJobs",
     );
 
     // For each user, get last message and onboarding data
@@ -397,7 +396,7 @@ exports.getAllUsers = async (req, res) => {
           lastMessage: lastMessage?.content || null,
           lastMessageTime: lastMessage?.createdAt || null,
         };
-      })
+      }),
     );
 
     res.status(200).json(usersWithData);
@@ -426,21 +425,21 @@ exports.sendChangePasswordOTP = async (req, res) => {
       email,
       "Password Changed Confirmation",
       "change-password",
-      { name: user.name ,otp},
+      { name: user.name, otp },
       [
         {
           filename: "change-password-logo.png",
           path: path.join(
             __dirname,
-            "../emails/assets/change-password-logo.png"
+            "../emails/assets/change-password-logo.png",
           ),
           cid: "changePasswordLogo",
         },
-      ]
+      ],
     );
     res.json({ message: "OTP sent to your email" });
   } catch (error) {
-    console.error('Error in send-change-password-otp:', error);
+    console.error("Error in send-change-password-otp:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -503,7 +502,7 @@ exports.getFirstTimeLoginCount = async (req, res) => {
     const count = await User.countDocuments({ firstTimeLogin: false });
     res.status(200).json({
       message: "Count of users with first time login",
-      count
+      count,
     });
   } catch (error) {
     console.error("Error fetching firstTimeLogin count:", error);
@@ -514,14 +513,27 @@ exports.getFirstTimeLoginCount = async (req, res) => {
 // Get all pending employer approvals
 exports.getPendingEmployers = async (req, res) => {
   try {
-    const pendingEmployers = await User.find({ 
-      role: "employer", 
-      isApproved: false 
-    }).select("_id name email phone isApproved createdAt");
-    
+    const pendingEmployers = await User.find({
+      role: "employer",
+      isApproved: false,
+    }).lean();
+
+    const employersWithCompany = await Promise.all(
+      pendingEmployers.map(async (employer) => {
+        const company = await Company.findOne({
+          createdBy: employer._id,
+        }).lean();
+
+        return {
+          ...employer,
+          company,
+        };
+      })
+    );
+
     res.status(200).json({
       message: "Pending employer approvals",
-      employers: pendingEmployers
+      employers: employersWithCompany,
     });
   } catch (error) {
     console.error("Error fetching pending employers:", error);
@@ -532,14 +544,26 @@ exports.getPendingEmployers = async (req, res) => {
 // Get all approved employers
 exports.getApprovedEmployers = async (req, res) => {
   try {
-    const approvedEmployers = await User.find({ 
-      role: "employer", 
-      isApproved: true 
-    }).select("_id name email phone isApproved createdAt");
-    
+    const approvedEmployers = await User.find({
+      role: "employer",
+      isApproved: true,
+    }).lean();
+    const employersWithCompany = await Promise.all(
+      approvedEmployers.map(async (employer) => {
+        const company = await Company.findOne({
+          createdBy: employer._id,
+        }).lean();
+
+        return {
+          ...employer,
+          company,
+        };
+      })
+    );
+
     res.status(200).json({
       message: "Approved employers",
-      employers: approvedEmployers
+      employers: employersWithCompany,
     });
   } catch (error) {
     console.error("Error fetching approved employers:", error);
@@ -559,7 +583,7 @@ exports.approveEmployer = async (req, res) => {
     const employer = await User.findByIdAndUpdate(
       employerId,
       { isApproved: true, approvalRejectionReason: null },
-      { new: true }
+      { new: true },
     );
 
     if (!employer) {
@@ -571,9 +595,9 @@ exports.approveEmployer = async (req, res) => {
       employer.email,
       "Your Account Has Been Approved",
       "employer-approval",
-      { 
+      {
         name: employer.name,
-        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173"
+        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173",
       },
       [
         {
@@ -581,12 +605,12 @@ exports.approveEmployer = async (req, res) => {
           path: path.join(__dirname, "../emails/assets/top-logo.png"),
           cid: "topLogo",
         },
-      ]
+      ],
     );
 
     res.status(200).json({
       message: "Employer approved successfully",
-      employer
+      employer,
     });
   } catch (error) {
     console.error("Error approving employer:", error);
@@ -605,8 +629,11 @@ exports.rejectEmployer = async (req, res) => {
 
     const employer = await User.findByIdAndUpdate(
       employerId,
-      { isApproved: false, approvalRejectionReason: reason || "Account rejected by admin" },
-      { new: true }
+      {
+        isApproved: false,
+        approvalRejectionReason: reason || "Account rejected by admin",
+      },
+      { new: true },
     );
 
     if (!employer) {
@@ -618,10 +645,10 @@ exports.rejectEmployer = async (req, res) => {
       employer.email,
       "Your Account Application Has Been Rejected",
       "employer-rejection",
-      { 
-        name: employer.name, 
+      {
+        name: employer.name,
         reason: employer.approvalRejectionReason,
-        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173"
+        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173",
       },
       [
         {
@@ -629,15 +656,52 @@ exports.rejectEmployer = async (req, res) => {
           path: path.join(__dirname, "../emails/assets/top-logo.png"),
           cid: "topLogo",
         },
-      ]
+      ],
     );
 
     res.status(200).json({
       message: "Employer rejected successfully",
-      employer
+      employer,
     });
   } catch (error) {
     console.error("Error rejecting employer:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.revokeEmployerApproval = async (req, res) => {
+  try {
+    const { employerId } = req.body;
+
+    if (!employerId) {
+      return res.status(400).json({
+        message: "Employer ID is required",
+      });
+    }
+
+    const employer = await User.findByIdAndUpdate(
+      employerId,
+      {
+        isApproved: false,
+        approvalRejectionReason: null,
+      },
+      { new: true },
+    );
+
+    if (!employer) {
+      return res.status(404).json({
+        message: "Employer not found",
+      });
+    }
+    return res.status(200).json({
+      message: "Employer approval revoked successfully",
+      employer,
+    });
+  } catch (error) {
+    console.error("Error revoking employer approval:", error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };

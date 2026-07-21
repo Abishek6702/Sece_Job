@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/Admin/AdminSidebar";
 import EmployerApprovals from "../components/Admin/EmployerApprovals";
+
 import EmployeesList from "../components/Admin/EmployeesList";
 import DashboardOverview from "../components/Admin/DashboardOverview";
 
@@ -51,6 +52,7 @@ const AdminDashboard = () => {
 
           {/* Employers Approvals */}
           {activeTab === "employers" && <EmployerApprovals />}
+
         </div>
       </main>
     </div>

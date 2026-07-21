@@ -33,6 +33,8 @@ router.get("/admin/pending-employers", verifyToken, verifyAdmin, authController.
 router.get("/admin/approved-employers", verifyToken, verifyAdmin, authController.getApprovedEmployers);
 router.post("/admin/approve-employer", verifyToken, verifyAdmin, authController.approveEmployer);
 router.post("/admin/reject-employer", verifyToken, verifyAdmin, authController.rejectEmployer);
+router.post("/admin/revoke-employer", verifyToken, verifyAdmin, authController.revokeEmployerApproval);
+
 
 // Get all users
 router.get("/all", verifyToken, authController.getAllUsers);
