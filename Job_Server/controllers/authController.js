@@ -48,7 +48,15 @@ const registerUser = async (req, res, role) => {
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
-    const newUser = new User({ name, email, phone, password, role });
+    // For employers, set isApproved to false; for others, default is true
+    const newUser = new User({ 
+      name, 
+      email, 
+      phone, 
+      password, 
+      role,
+      isApproved: role === "employer" ? false : true
+    });
     await newUser.save();
 
     const otp = generateOTP();
@@ -124,6 +132,15 @@ exports.login = async (req, res) => {
       return res
         .status(400)
         .json({ message: "User not verified or does not exist" });
+    }
+
+    // Check if employer is approved
+    if (user.role === "employer" && !user.isApproved) {
+      return res.status(403).json({ 
+        message: "Your account is pending admin approval",
+        status: "PENDING_APPROVAL",
+        rejectionReason: user.approvalRejectionReason
+      });
     }
 
     // Check if the password matches
@@ -490,6 +507,137 @@ exports.getFirstTimeLoginCount = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching firstTimeLogin count:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get all pending employer approvals
+exports.getPendingEmployers = async (req, res) => {
+  try {
+    const pendingEmployers = await User.find({ 
+      role: "employer", 
+      isApproved: false 
+    }).select("_id name email phone isApproved createdAt");
+    
+    res.status(200).json({
+      message: "Pending employer approvals",
+      employers: pendingEmployers
+    });
+  } catch (error) {
+    console.error("Error fetching pending employers:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get all approved employers
+exports.getApprovedEmployers = async (req, res) => {
+  try {
+    const approvedEmployers = await User.find({ 
+      role: "employer", 
+      isApproved: true 
+    }).select("_id name email phone isApproved createdAt");
+    
+    res.status(200).json({
+      message: "Approved employers",
+      employers: approvedEmployers
+    });
+  } catch (error) {
+    console.error("Error fetching approved employers:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Approve an employer
+exports.approveEmployer = async (req, res) => {
+  try {
+    const { employerId } = req.body;
+
+    if (!employerId) {
+      return res.status(400).json({ message: "Employer ID is required" });
+    }
+
+    const employer = await User.findByIdAndUpdate(
+      employerId,
+      { isApproved: true, approvalRejectionReason: null },
+      { new: true }
+    );
+
+    if (!employer) {
+      return res.status(404).json({ message: "Employer not found" });
+    }
+
+    // Send approval email
+    await sendEmail(
+      employer.email,
+      "Your Account Has Been Approved",
+      "employer-approval",
+      { 
+        name: employer.name,
+        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173"
+      },
+      [
+        {
+          filename: "top-logo.png",
+          path: path.join(__dirname, "../emails/assets/top-logo.png"),
+          cid: "topLogo",
+        },
+      ]
+    );
+
+    res.status(200).json({
+      message: "Employer approved successfully",
+      employer
+    });
+  } catch (error) {
+    console.error("Error approving employer:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Reject an employer
+exports.rejectEmployer = async (req, res) => {
+  try {
+    const { employerId, reason } = req.body;
+
+    if (!employerId) {
+      return res.status(400).json({ message: "Employer ID is required" });
+    }
+
+    const employer = await User.findByIdAndUpdate(
+      employerId,
+      { isApproved: false, approvalRejectionReason: reason || "Account rejected by admin" },
+      { new: true }
+    );
+
+    if (!employer) {
+      return res.status(404).json({ message: "Employer not found" });
+    }
+
+    // Send rejection email
+    await sendEmail(
+      employer.email,
+      "Your Account Application Has Been Rejected",
+      "employer-rejection",
+      { 
+        name: employer.name, 
+        reason: employer.approvalRejectionReason,
+        APP_URL: process.env.FRONTEND_URL || "http://localhost:5173"
+      },
+      [
+        {
+          filename: "top-logo.png",
+          path: path.join(__dirname, "../emails/assets/top-logo.png"),
+          cid: "topLogo",
+        },
+      ]
+    );
+
+    res.status(200).json({
+      message: "Employer rejected successfully",
+      employer
+    });
+  } catch (error) {
+    console.error("Error rejecting employer:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

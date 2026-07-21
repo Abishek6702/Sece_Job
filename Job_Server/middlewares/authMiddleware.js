@@ -29,6 +29,19 @@ exports.verifyToken = async (req, res, next) => {
   }
 };
 
+// Verify if user is admin
+exports.verifyAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ error: "Unauthorized: Admin access required" });
+    }
+    next();
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 // To check the user roles to gve access to the endpoints
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {

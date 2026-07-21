@@ -1,0 +1,127 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; 
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+    .header img {
+      height: 200px;
+      width: 300px;
+      margin-bottom: 10px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+    }
+    .welcome-text {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      color: #e74c3c;
+      margin-bottom: 10px;
+    }
+    .intro-text {
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .button {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .button a {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .button a:hover {
+      background-color: #2980b9;
+    }
+    .footer {
+      background-color: #f8f8f8;
+      text-align: center;
+      padding: 15px;
+      font-size: 12px;
+      color: #666666;
+      border-top: 1px solid #ddd;
+    }
+    .message {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .reason-box {
+      background-color: #e7e7e7;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border-left: 4px solid #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation">
+    <tr>
+      <td>
+        <div class="container">
+          <div class="header">
+            <img src="cid:topLogo" alt="Logo" />
+          </div>
+          <div class="content">
+            <div class="welcome-text">Account Application Status</div>
+            <div class="message">
+              <p>Hello <strong>{{name}}</strong>,</p>
+              <p>Thank you for your interest in joining our platform as an employer. After careful review, we regret to inform you that your account application has not been approved at this time.</p>
+            </div>
+            <div class="reason-box">
+              <p><strong>Reason for Rejection:</strong></p>
+              <p>{{reason}}</p>
+            </div>
+            <div class="intro-text">
+              <p>You may reapply after addressing the concerns mentioned above, or contact our support team for more information about the decision.</p>
+            </div>
+            <div class="button">
+              <a href="{{APP_URL}}/contact">Contact Support</a>
+            </div>
+            <p style="font-size: 14px; color: #666;">
+              If you have any questions or would like to appeal this decision, please feel free to reach out to our support team.
+            </p>
+          </div>
+          <div class="footer">
+            <p>© 2024 Job Portal. All rights reserved.</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

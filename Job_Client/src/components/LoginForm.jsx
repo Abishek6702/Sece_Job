@@ -87,6 +87,12 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (!res.ok) {
+        // Check if it's a pending approval error
+        if (data.status === "PENDING_APPROVAL") {
+          setError("Your account is pending admin approval. Please wait for approval to login.");
+          toast.error("Account pending admin approval");
+          return;
+        }
         throw new Error(data.message || "Login failed");
       }
 
