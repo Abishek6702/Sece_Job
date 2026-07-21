@@ -29,10 +29,8 @@ const contactRoute = require("./routes/contact");
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = [
-  "http://localhost:4000",
-   "http://localhost:5174",
-];
+
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:4000"];
 
 // Socket.IO setup
 const io = socketIo(server, {
