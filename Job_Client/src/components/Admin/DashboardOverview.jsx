@@ -1,39 +1,56 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
-  BarChart,
   Users,
   Building2,
-  TrendingUp,
   ClipboardPen,
 } from "lucide-react";
+import { toast } from "react-toastify";
 import LineChartUsers from "./LineChartUsers.jsx";
 import RegionPieChart from "./RegionPieChart.jsx";
 
 const DashboardOverview = ({ setActiveTab }) => {
+  const token = localStorage.getItem("token");
+
   const [stats, setStats] = useState({
-    totalUsers: 0,
     totalEmployees: 0,
     totalEmployers: 0,
     approvedEmployers: 0,
     pendingEmployers: 0,
   });
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    // Fetch stats - you can implement actual API calls here
-    // For now, using dummy data
-    setStats({
-      totalUsers: 245,
-      totalEmployees: 189,
-      totalEmployers: 56,
-      approvedEmployers: 45,
-      pendingEmployers: 11,
-    });
+    fetchDashboardStats();
   }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      setLoading(true);
+
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/adminDashboard/dashboard/stats`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setStats(data.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load dashboard statistics");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const statCards = [
     {
       title: "Total Employees",
-      value: stats.totalUsers,
+      value: stats.totalEmployees,
       border: "border-blue-500",
       bg: "bg-blue-100",
       text: "text-blue-600",
@@ -53,7 +70,7 @@ const DashboardOverview = ({ setActiveTab }) => {
       border: "border-purple-500",
       bg: "bg-purple-100",
       text: "text-purple-600",
-      icon: ClipboardPen, // You can replace this with an appropriate icon
+      icon: ClipboardPen,
     },
   ];
 
@@ -74,8 +91,9 @@ const DashboardOverview = ({ setActiveTab }) => {
                   <p className="text-gray-600 text-sm font-medium">
                     {card.title}
                   </p>
+
                   <p className="text-2xl font-bold text-gray-700 mt-2">
-                    {card.value}
+                    {loading ? "..." : card.value}
                   </p>
                 </div>
 
@@ -88,6 +106,7 @@ const DashboardOverview = ({ setActiveTab }) => {
         })}
       </div>
 
+      {/* Charts */}
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-3/5">
           <LineChartUsers />

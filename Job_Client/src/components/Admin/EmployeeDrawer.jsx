@@ -60,7 +60,7 @@ const EmployeeDrawer = ({ isOpen, onClose, employee }) => {
           {/* Basic Details */}
           <div className="pt-10 flex justify-between items-start">
             <div className="">
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold text-gray-700">
                 {employee.name}
               </h2>
 
@@ -96,7 +96,7 @@ const EmployeeDrawer = ({ isOpen, onClose, employee }) => {
           {/* Skills */}
           {employee?.onboarding?.skills?.length > 0 && (
             <div>
-              <h3 className="mb-3 text-lg font-semibold text-gray-800">
+              <h3 className="mb-3 text-lg font-semibold text-gray-700">
                 Skills
               </h3>
 
@@ -116,7 +116,7 @@ const EmployeeDrawer = ({ isOpen, onClose, employee }) => {
           {/* Experience */}
           {employee?.onboarding?.experience?.length > 0 && (
             <div>
-              <h3 className="mb-3 text-lg font-semibold text-gray-800">
+              <h3 className="mb-3 text-lg font-semibold text-gray-700">
                 Experience
               </h3>
 
@@ -126,7 +126,7 @@ const EmployeeDrawer = ({ isOpen, onClose, employee }) => {
                     key={index}
                     className="rounded-xl border border-gray-200 p-4"
                   >
-                    <h4 className="font-semibold text-gray-800">{exp.title}</h4>
+                    <h4 className="font-semibold text-gray-700">{exp.title}</h4>
 
                     <p className="text-sm font-medium text-blue-600">
                       {exp.company}
@@ -155,7 +155,7 @@ const EmployeeDrawer = ({ isOpen, onClose, employee }) => {
           {/* Education */}
           {employee?.onboarding?.education?.length > 0 && (
             <div>
-              <h3 className="mb-3 text-lg font-semibold text-gray-800">
+              <h3 className="mb-3 text-lg font-semibold text-gray-700">
                 Education
               </h3>
 

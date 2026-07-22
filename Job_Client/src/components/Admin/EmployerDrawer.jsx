@@ -31,13 +31,13 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b bg-white px-6 py-5">
+        <div className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-5">
           <div className="flex items-center gap-4">
             {company?.company_logo ? (
               <img
                 src={company.company_logo}
                 alt={company.company_name}
-                className="h-16 w-16 rounded-xl object-cover border"
+                className=" w-16 rounded-xl object-fit"
               />
             ) : (
               <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-green-500 text-2xl font-bold text-white">
@@ -46,7 +46,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
             )}
 
             <div>
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl text-gray-700 font-bold">
                 {company?.company_name || employer.name}
               </h2>
 
@@ -58,7 +58,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
 
           <button
             onClick={onClose}
-            className="rounded-lg p-2 hover:bg-gray-100"
+            className="rounded-full p-2 bg-gray-100 cursor-pointer"
           >
             <X />
           </button>
@@ -66,15 +66,21 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
 
         {/* Body */}
         <div className="h-[calc(100vh-88px)] overflow-y-auto p-6 space-y-8">
+        
 
-          {/* Employer */}
+          {/* Company */}
           <section>
-            <h3 className="mb-4 text-lg font-semibold">
-              Employer Information
-            </h3>
+            <h3 className="mb-4 text-lg font-semibold text-gray-700">Company Information</h3>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-5">
+              <div className="flex items-center gap-3">
+                <Building2 size={18} className="text-gray-400" />
+                <div>
+                  <p className="text-xs text-gray-500">Company</p>
 
+                  <p>{company?.company_name || "-"}</p>
+                </div>
+              </div>
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-gray-400" />
                 <span>{employer.email}</span>
@@ -85,41 +91,12 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
                 <span>{employer.phone}</span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Calendar size={18} className="text-gray-400" />
-                <span>
-                  {new Date(employer.updatedAt).toLocaleDateString()}
-                </span>
-              </div>
 
-            </div>
-          </section>
-
-          {/* Company */}
-          <section>
-            <h3 className="mb-4 text-lg font-semibold">
-              Company Information
-            </h3>
-
-            <div className="grid grid-cols-2 gap-5">
-
-              <div className="flex items-center gap-3">
-                <Building2 size={18} className="text-gray-400" />
-                <div>
-                  <p className="text-xs text-gray-500">
-                    Company
-                  </p>
-
-                  <p>{company?.company_name || "-"}</p>
-                </div>
-              </div>
 
               <div className="flex items-center gap-3">
                 <Briefcase size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Type
-                  </p>
+                  <p className="text-xs text-gray-500">Type</p>
 
                   <p>{company?.company_type || "-"}</p>
                 </div>
@@ -128,9 +105,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <MapPin size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Location
-                  </p>
+                  <p className="text-xs text-gray-500">Location</p>
 
                   <p>{company?.location || "-"}</p>
                 </div>
@@ -139,9 +114,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <Calendar size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Founded
-                  </p>
+                  <p className="text-xs text-gray-500">Founded</p>
 
                   <p>{company?.founded || "-"}</p>
                 </div>
@@ -150,9 +123,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <Users size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Employees
-                  </p>
+                  <p className="text-xs text-gray-500">Employees</p>
 
                   <p>{company?.employee_count || "-"}</p>
                 </div>
@@ -161,9 +132,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <Users size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Followers
-                  </p>
+                  <p className="text-xs text-gray-500">Followers</p>
 
                   <p>{company?.followers_count || "-"}</p>
                 </div>
@@ -172,9 +141,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <DollarSign size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Revenue
-                  </p>
+                  <p className="text-xs text-gray-500">Revenue</p>
 
                   <p>{company?.revenue || "-"}</p>
                 </div>
@@ -183,9 +150,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
               <div className="flex items-center gap-3">
                 <Globe size={18} className="text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">
-                    Website
-                  </p>
+                  <p className="text-xs text-gray-500">Website</p>
 
                   {company?.site_url ? (
                     <a
@@ -201,29 +166,22 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
                   )}
                 </div>
               </div>
-
             </div>
           </section>
 
           {/* About */}
           {company?.about?.content && (
             <section>
-              <h3 className="mb-3 text-lg font-semibold">
-                About Company
-              </h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-700">About Company</h3>
 
-              <p className="leading-7 text-gray-600">
-                {company.about.content}
-              </p>
+              <p className="leading-7 text-gray-600">{company.about.content}</p>
             </section>
           )}
 
           {/* Images */}
           {company?.images?.length > 0 && (
             <section>
-              <h3 className="mb-3 text-lg font-semibold">
-                Company Images
-              </h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-700">Company Images</h3>
 
               <div className="grid grid-cols-2 gap-4">
                 {company.images.map((image, index) => (
@@ -231,7 +189,7 @@ const EmployerDrawer = ({ isOpen, employer, onClose }) => {
                     key={index}
                     src={image}
                     alt=""
-                    className="h-40 w-full rounded-xl border object-cover"
+                    className="h-40 w-full rounded-xl  object-cover"
                   />
                 ))}
               </div>

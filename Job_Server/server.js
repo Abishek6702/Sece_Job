@@ -26,6 +26,7 @@ const postRoutes = require("./routes/postRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const templateRoutes = require("./routes/templateRoutes");
 const contactRoute = require("./routes/contact");
+const adminDashboardRoutes = require("./routes/adminDashboardRoutes");
 const app = express();
 const server = http.createServer(app);
 
@@ -109,6 +110,8 @@ io.on("connection", (socket) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/adminDashboard", adminDashboardRoutes);
+
 app.use("/api/companies", companyRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/onboarding", onboardingRoutes);

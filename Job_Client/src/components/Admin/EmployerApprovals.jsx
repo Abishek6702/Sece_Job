@@ -13,7 +13,7 @@ const EmployerApprovals = () => {
   const [selectedEmployer, setSelectedEmployer] = useState(null);
   const [rejectionReason, setRejectionReason] = useState("");
 
-  const [activeTab, setActiveTab] = useState("pending");
+  const [activeTab, setActiveTab] = useState("approved");
 
   const token = localStorage.getItem("token");
 
@@ -176,16 +176,7 @@ const EmployerApprovals = () => {
         {/* Tabs */}
 
         <div className="flex gap-4 mb-6">
-          <button
-            onClick={() => setActiveTab("pending")}
-            className={`px-6 py-2 rounded-lg font-medium cursor-pointer transition ${
-              activeTab === "pending"
-                ? "bg-blue-600 text-white"
-                : "bg-white border border-gray-300"
-            }`}
-          >
-            Pending ({pendingEmployers.length})
-          </button>
+          
 
           <button
             onClick={() => setActiveTab("approved")}
@@ -196,6 +187,16 @@ const EmployerApprovals = () => {
             }`}
           >
             Approved ({approvedEmployers.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("pending")}
+            className={`px-6 py-2 rounded-lg font-medium cursor-pointer transition ${
+              activeTab === "pending"
+                ? "bg-blue-600 text-white"
+                : "bg-white border border-gray-300"
+            }`}
+          >
+            Pending ({pendingEmployers.length})
           </button>
         </div>
 

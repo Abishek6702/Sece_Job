@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import { Loader, Eye, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import EmployeeDrawer from "./EmployeeDrawer.jsx";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -11,6 +13,7 @@ const EmployeesList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,9 +65,87 @@ const EmployeesList = () => {
     return (
       employee?.name?.toLowerCase().includes(search) ||
       employee?.email?.toLowerCase().includes(search) ||
-      employee?.phone?.toLowerCase().includes(search)
+      employee?.phone?.toLowerCase().includes(search) ||
+      employee?.onboarding?.preferredRoles?.some((role) =>
+        role.toLowerCase().includes(search),
+      ) ||
+      employee?.onboarding?.skills?.some((skill) =>
+        skill.toLowerCase().includes(search),
+      ) 
     );
   });
+
+  const handleSelect = (id) => {
+    setSelectedEmployees((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedEmployees.length === filteredEmployees.length) {
+      setSelectedEmployees([]);
+    } else {
+      setSelectedEmployees(filteredEmployees.map((emp) => emp._id));
+    }
+  };
+
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Employees");
+
+    worksheet.columns = [
+      { header: "Name", key: "name", width: 25 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone", key: "phone", width: 18 },
+      { header: "Preferred Role", key: "preferredRole", width: 25 },
+      { header: "Skills", key: "skills", width: 50 },
+      { header: "Resume Link", key: "resume", width: 50 },
+    ];
+
+    const data =
+      selectedEmployees.length > 0
+        ? filteredEmployees.filter((emp) => selectedEmployees.includes(emp._id))
+        : filteredEmployees;
+
+    data.forEach((employee) => {
+      worksheet.addRow({
+        name: employee.name,
+        email: employee.email,
+        phone: employee.phone,
+        preferredRole: employee?.onboarding?.preferredRoles?.join(", ") || "",
+        skills: employee?.onboarding?.skills?.join(", ") || "",
+        resume: employee?.onboarding?.resume || "",
+      });
+    });
+
+    // Make resume links clickable
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber === 1) return;
+
+      const resumeCell = row.getCell(6);
+
+      if (resumeCell.value) {
+        resumeCell.value = {
+          text: resumeCell.value,
+          hyperlink: resumeCell.value,
+        };
+
+        resumeCell.font = {
+          color: { argb: "FF0000FF" },
+          underline: true,
+        };
+      }
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    saveAs(
+      new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      }),
+      "employees.xlsx",
+    );
+  };
 
   if (loading) {
     return (
@@ -84,14 +165,21 @@ const EmployeesList = () => {
             {filteredEmployees.length}
           </span>
         </div>
-        <div className="w-full md:w-80">
+        <div className="  flex items-center gap-4 pr-4">
           <input
             type="text"
-            placeholder="Search by name, email or phone..."
+            placeholder="Search by name, email, phone, roles ..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            className="w-80 rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
           />
+          <button
+            onClick={exportToExcel}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 cursor-alias"
+          >
+            Export
+            {selectedEmployees.length > 0 && ` (${selectedEmployees.length})`}
+          </button>
         </div>
       </div>
 
@@ -104,6 +192,16 @@ const EmployeesList = () => {
           <table className="min-w-full divide-y divide-gray-200 ">
             <thead className="bg-gray-50 sticky top-0">
               <tr>
+                <th className="px-4 py-4 text-center">
+                  <input
+                    type="checkbox"
+                    checked={
+                      filteredEmployees.length > 0 &&
+                      selectedEmployees.length === filteredEmployees.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                   Employee
                 </th>
@@ -123,10 +221,10 @@ const EmployeesList = () => {
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                   Onboarded
                 </th>
-
-                <th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Resume
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  Location
                 </th>
+              
 
                 <th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
                   Actions
@@ -140,6 +238,13 @@ const EmployeesList = () => {
                   key={employee._id}
                   className="hover:bg-gray-50 cursor-pointer transition-colors duration-200"
                 >
+                  <td className="px-4 py-4 text-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedEmployees.includes(employee._id)}
+                      onChange={() => handleSelect(employee._id)}
+                    />
+                  </td>
                   {/* Employee */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -150,7 +255,7 @@ const EmployeesList = () => {
                       />
 
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold whitespace-nowrap text-gray-900">
                           {employee.name}
                         </p>
 
@@ -217,25 +322,28 @@ const EmployeesList = () => {
                     ).toLocaleDateString()}
                   </td>
 
-                  {/* Resume */}
-                  <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => handleResume(employee?.onboarding?.resume)}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition"
-                      title="View Resume"
-                    >
-                      <FileText size={18} />
-                    </button>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {
+                      employee?.onboarding?.location}
                   </td>
 
+                 
+
                   {/* Actions */}
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-4 text-center flex items-center gap-2">
                     <button
                       onClick={() => handleView(employee)}
                       className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
                       title="View Employee"
                     >
                       <Eye size={18} />
+                    </button>
+                    <button
+                      onClick={() => handleResume(employee?.onboarding?.resume)}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition"
+                      title="View Resume"
+                    >
+                      <FileText size={18} />
                     </button>
                   </td>
                 </tr>
