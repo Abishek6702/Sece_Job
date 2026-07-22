@@ -7,6 +7,11 @@ const cors = require("cors");
 const path = require("path");
 const cron = require("node-cron");
 const jwt = require("jsonwebtoken");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const mongoSanitize = require("express-mongo-sanitize");
+const hpp = require("hpp");
+const compression = require("compression");
 
 const connectDB = require("./config/db");
 const Application = require("./models/JobApplication");
@@ -59,11 +64,21 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+app.use(mongoSanitize());
+app.use(hpp());
+app.use(compression());
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
 // Explicitly handle OPTIONS preflight for all routes
 app.options("*", cors(corsOptions));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Make io available to routes
 app.use((req, res, next) => {
