@@ -32,7 +32,7 @@ export default function LandingNavbar() {
       <div className="flex items-center justify-between w-full h-[70px]">
         
         {/* Logo */}
-        <h1 className=" lg:text-2xl text-1xl font-bold text-gray-900">Sri Eshwar <span className="text-[#155dfc]">Carrer Connect</span></h1>
+        <h1 className=" lg:text-2xl text-1xl font-bold text-gray-900"> Carrer <span className="text-[#155dfc]">Connect</span></h1>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">

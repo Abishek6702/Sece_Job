@@ -28,7 +28,10 @@ const AdminSidebar = ({ activeTab, setActiveTab, onLogout }) => {
       <div>
         {/* Logo */}
         <div className="h-24 flex items-center justify-center  ">
-          <img src={logo} alt="Logo" className="h-16 w-auto" />
+           <h1 className=" lg:text-3xl text-1xl font-bold text-gray-900">
+              {" "}
+              Carrer <span className="text-[#155dfc]">Connect</span>
+            </h1>
         </div>
 
         {/* Menu */}

@@ -183,8 +183,11 @@ const SignupForm = () => {
     <div className="w-[100%] h-[100vh] flex justify-between bg-gray-50">
     
       <div className="w-full  lg:w-[45%] borde  px-8 rounded-lg m-auto">
-        <div className="w-40">
-          <img src={logo} alt="" />
+        <div className="">
+          <h1 className=" lg:text-2xl text-1xl font-bold text-gray-900">
+              {" "}
+              Carrer <span className="text-[#155dfc]">Connect</span>
+            </h1>
         </div>
         {!showOtpField ? (
           <>

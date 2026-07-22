@@ -164,7 +164,7 @@ const Navbar = ({ socket, currentUserId }) => {
         </button>
         {showServices && (
           <div className="absolute flex flex-col top-full mt-2 left-0 bg-white rounded-md shadow-lg z-10 min-w-[180px]">
-            <Link
+            {/* <Link
               to="/resumes"
               className={`px-4 py-2 hover:bg-gray-100 ${
                 location.pathname.startsWith("/resumes")
@@ -177,7 +177,7 @@ const Navbar = ({ socket, currentUserId }) => {
               }}
             >
               Resumes
-            </Link>
+            </Link> */}
             <Link
               to="/score-checker"
               className={`px-4 py-2 hover:bg-gray-100 ${
@@ -192,7 +192,7 @@ const Navbar = ({ socket, currentUserId }) => {
             >
               Score Checker
             </Link>
-            <Link
+            {/* <Link
               to="/interview-prep"
               className={`px-4 py-2 hover:bg-gray-100 ${
                 location.pathname.startsWith("/interview-prep")
@@ -205,12 +205,12 @@ const Navbar = ({ socket, currentUserId }) => {
               }}
             >
               Interview Prep
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>
      
-      <NavLink
+      {/* <NavLink
         to="/e-learning"
         className={({ isActive }) =>
           `flex items-center gap-1 ${
@@ -221,7 +221,7 @@ const Navbar = ({ socket, currentUserId }) => {
       >
         <BookOpen />
         E-Learning
-      </NavLink>
+      </NavLink> */}
     </>
   );
   return (
@@ -235,7 +235,10 @@ const Navbar = ({ socket, currentUserId }) => {
             <Menu />
           </button>
           <Link to="/" className="font-bold py-1 rounded-md text-gray-700">
-            <img src={logo} className="h-6" alt="Logo" />
+             <h1 className=" lg:text-2xl text-1xl font-bold text-gray-900">
+              {" "}
+              Carrer <span className="text-[#155dfc]">Connect</span>
+            </h1>
           </Link>
         </div>
 

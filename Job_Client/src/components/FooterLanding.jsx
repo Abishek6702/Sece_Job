@@ -11,7 +11,7 @@ const FooterLanding = () => {
             <div className="w-10 h-10 bg-white text-[#2b7fff] font-bold text-lg flex items-center justify-center rounded-full shadow-md">
               Q
             </div>
-            <span className="text-2xl font-semibold">Sri Eshwar|Carrer Connect</span>
+            <span className="text-2xl font-semibold">Carrer Connect</span>
           </div>
           <p className="text-sm max-w-xs leading-relaxed opacity-90">
             Launch your own Software As A Service Application with QuantumPulse Technologies.

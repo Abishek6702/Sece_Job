@@ -81,7 +81,7 @@ const LoginForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -89,7 +89,9 @@ const LoginForm = () => {
       if (!res.ok) {
         // Check if it's a pending approval error
         if (data.status === "PENDING_APPROVAL") {
-          setError("Your account is pending admin approval. Please wait for approval to login.");
+          setError(
+            "Your account is pending admin approval. Please wait for approval to login.",
+          );
           toast.error("Account pending admin approval");
           return;
         }
@@ -112,7 +114,7 @@ const LoginForm = () => {
     const fetchVisitorCount = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/auth/first-time-login-count`
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/first-time-login-count`,
         );
         if (!res.ok) throw new Error("Failed to fetch visitor count");
         const data = await res.json();
@@ -130,8 +132,12 @@ const LoginForm = () => {
     <div className="main-container flex items-center justify-between gap-8 bg-gray-50 ">
       <div className="left-container w-[100%]  lg:w-[45%] h-[100vh] flex items-center justify-center   m-auto ">
         <div className="content-container w-[90%] m-auto ">
-          <div className=" w-40 ">
-            <img src={logo} className="" />
+          <div className=" ">
+            {/* <img src={logo} className="" /> */}
+            <h1 className=" lg:text-3xl text-1xl font-bold text-gray-900">
+              {" "}
+              Carrer <span className="text-[#155dfc]">Connect</span>
+            </h1>
           </div>
           <p className="text-[32px] font-medium">Login to your account</p>
 
@@ -149,7 +155,7 @@ const LoginForm = () => {
                 className="w-full border border-gray-300  py-2 px-4 text-[16px] rounded-md outline-none focus:border-[#155dfc] focus:border-2"
               />
             </div>
- 
+
             <div className="password relative mb-2">
               <label htmlFor="password" className=" font-medium text-gray-700">
                 Password

@@ -72,7 +72,10 @@ const EmployerNavbar = () => {
   return (
     <nav className="w-full flex justify-between items-center p-4 bg-white drop-shadow-sm">
       <div>
-        <img src={logo} alt="Job Portal" className="h-6 md:h-6" />
+        <h1 className=" lg:text-2xl text-1xl font-bold text-gray-900">
+              {" "}
+              Carrer <span className="text-[#155dfc]">Connect</span>
+            </h1>
       </div>
 
       <div className="flex items-center gap-6 text-gray-600 text-sm md:text-base">
