@@ -5,3 +5,5 @@ node_modules/
 
 # hide bat files
 *.bat
+
+Job_Client/
