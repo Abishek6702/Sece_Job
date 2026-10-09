@@ -47,12 +47,12 @@ const TopNavbar = ({ userName, userRole, onMessageClick, currentUserId, socket }
   return (
     <div className="bg-[#f6f6f4] rounded-2xl py-4 px-6 mt-4 mx-4 flex justify-between items-center ">
       <div className="flex items-center gap-3">
-        <img src={logo} alt="Logo" className='w-40 md:block hidden' ></img>
+        <img src={logo} alt="Logo" className='w-30 md:block hidden' ></img>
         <img src={logoshort} alt="Logo" className='w-10 md:hidden block' ></img>
       </div>
       
       <div className="flex items-center gap-4">
-          <NavLink to="/messages" className="relative mt-2">
+          <NavLink to="/messages" className="relative">
             <MessageSquareText className="cursor-pointer text-gray-600 w-6 h-6" />
             {unreadUsersCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">

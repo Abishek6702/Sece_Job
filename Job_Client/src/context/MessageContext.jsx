@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { io } from "socket.io-client";
+import { useLocation } from "react-router-dom";
 
 const MessageContext = createContext();
 
@@ -14,17 +15,36 @@ export const MessageProvider = ({ children }) => {
   const [unreadCounts, setUnreadCounts] = useState({});
   const [typingUsers, setTypingUsers] = useState({});
   const [unreadLoading, setUnreadLoading] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState(new Set());
+
+  const location = useLocation();
 
   // Socket connection
   useEffect(() => {
     const token = localStorage.getItem("carvion-key");
-    const newSocket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
-      auth: { token },
-      transports: ["websocket", "polling"],
-    });
-    setSocket(newSocket);
-    return () => newSocket.disconnect();
-  }, []);
+    
+    if (!token) {
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
+      return;
+    }
+
+    if (!socket) {
+      const newSocket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
+        auth: { token },
+        transports: ["websocket", "polling"],
+      });
+      setSocket(newSocket);
+    }
+  }, [location.pathname, socket]);
+
+  useEffect(() => {
+    return () => {
+      if (socket) socket.disconnect();
+    };
+  }, [socket]);
 
   // Fetch initial unread counts
   useEffect(() => {
@@ -63,10 +83,44 @@ export const MessageProvider = ({ children }) => {
       }
     };
 
+    const handleUserOnline = (userId) => {
+      if (!userId) return;
+      setOnlineUsers((prev) => {
+        const next = new Set(prev);
+        next.add(userId.toString());
+        return next;
+      });
+    };
+
+    const handleUserOffline = (userId) => {
+      if (!userId) return;
+      setOnlineUsers((prev) => {
+        const next = new Set(prev);
+        next.delete(userId.toString());
+        return next;
+      });
+    };
+
     socket.on("update-unread-count", handleUnreadUpdate);
+    socket.on("user-online", handleUserOnline);
+    socket.on("user-offline", handleUserOffline);
+    
+    const fetchOnlineUsers = () => {
+      socket.emit("get-online-users", (users) => {
+        if (users) setOnlineUsers(new Set(users.map(u => u?.toString())));
+      });
+    };
+
+    socket.on("connect", fetchOnlineUsers);
+    if (socket.connected) {
+      fetchOnlineUsers();
+    }
 
     return () => {
       socket.off("update-unread-count", handleUnreadUpdate);
+      socket.off("user-online", handleUserOnline);
+      socket.off("user-offline", handleUserOffline);
+      socket.off("connect", fetchOnlineUsers);
     };
   }, [socket]);
 
@@ -97,6 +151,7 @@ export const MessageProvider = ({ children }) => {
         unreadCounts,
         typingUsers,
         unreadLoading,
+        onlineUsers,
         joinUserRoom,
         markMessagesRead,
       }}

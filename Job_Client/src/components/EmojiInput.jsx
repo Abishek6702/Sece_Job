@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import EmojiPicker from "emoji-picker-react";
-import { Paperclip, SendHorizonal, Smile, X } from "lucide-react";
+import { Paperclip, SendHorizonal, Smile, X, FileText } from "lucide-react";
 
 const EmojiInput = ({
   value,
@@ -9,6 +9,7 @@ const EmojiInput = ({
   placeholder = "Type a message...",
   imageFile,
   setImageFile,
+  loading = false,
 }) => {
   const [showPicker, setShowPicker] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
@@ -60,85 +61,105 @@ const EmojiInput = ({
   };
 
   return (
-    <div className="relative flex flex-col w-full">
-      {imagePreview && (
-        <div className="mb-2 flex items-center relative">
-          <img
-            src={imagePreview}
-            alt="Preview"
-            className="max-h-32 rounded shadow  mr-2"
-          />
+    <div className="relative flex flex-col w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-2">
+      {(imageFile || imagePreview) && (
+        <div className="mb-2 flex items-center relative pl-4">
+          {imageFile?.type?.startsWith("image/") || !imageFile ? (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="max-h-32 rounded shadow mr-2"
+            />
+          ) : (
+            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+              <FileText className="w-6 h-6 text-[#4361EE]" />
+              <span className="text-sm font-medium text-gray-700 truncate max-w-[150px]">
+                {imageFile.name}
+              </span>
+            </div>
+          )}
           <button
             onClick={handleRemoveImage}
-            className="absolute -top-2 left-44 text-red-500 hover:underline bg-red-100 p-1 rounded-full"
+            className={`absolute -top-2 text-red-500 hover:underline bg-red-100 p-1 rounded-full ${
+              imageFile?.type?.startsWith("image/") || !imageFile ? "left-32" : "left-44"
+            }`}
             type="button"
           >
-            <X/> 
+            <X className="w-4 h-4" />
           </button>
         </div>
       )}
-      <div className="flex items-center">
-        <div className="relative  w-full">
-          <input
-            ref={inputRef}
-            type="text"
-            value={value || ""}
-            onChange={onChange}
-            placeholder={placeholder}
-            className="w-full flex-1 p-3 border rounded-xl border-gray-300 outline-none"
-            onKeyDown={(e) => e.key === "Enter" && onSend()}
-            autoComplete="off"
-          />
+      <div className="flex items-center w-full">
+        <input
+          ref={inputRef}
+          type="text"
+          value={value || ""}
+          onChange={onChange}
+          placeholder="Send a message..."
+          className="flex-1 p-3 bg-transparent outline-none border-none text-gray-700"
+          onKeyDown={(e) => e.key === "Enter" && onSend()}
+          autoComplete="off"
+        />
+        <div className="flex items-center gap-2 pr-2">
           <button
             type="button"
-            className="absolute right-14 top-1 p-2 bg-gray-100  rounded-full text-gray-500"
+            className="p-2 text-gray-400 hover:text-gray-600 transition rounded-full"
             onClick={() => setShowPicker((v) => !v)}
             aria-label="Toggle emoji picker"
             tabIndex={-1}
           >
-            <Smile />
+            <Smile className="w-5 h-5" />
           </button>
+
+          {showPicker && (
+            <div
+              ref={pickerRef}
+              className="absolute bottom-16 right-10 z-50 shadow-lg rounded-lg border border-gray-300 bg-white"
+            >
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                width={320}
+                height={350}
+                theme="light"
+                previewConfig={{ showPreview: false }}
+                frequentlyUsedEmoji={[]}
+              />
+            </div>
+          )}
+
           <button
             type="button"
-            className=" absolute right-2 top-1 ml-2 p-2 bg-gray-100 rounded-full text-gray-500"
+            className="p-2 text-gray-400 hover:text-gray-600 transition rounded-full"
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
             title="Attach image"
           >
-            <Paperclip />
+            <Paperclip className="w-5 h-5" />
+          </button>
+
+          <input
+            type="file"
+            accept="image/*,.pdf,.doc,.docx"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            className="hidden"
+          />
+
+          <button
+            onClick={loading ? undefined : onSend}
+            disabled={loading}
+            className={`btn-grad text-white flex items-center justify-center gap-2 px-5 py-2 rounded-full transition font-medium ml-2 ${
+              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-blue-700"
+            }`}
+            type="button"
+          >
+            <span className="hidden lg:block text-sm">{loading ? "Sending..." : "Send"}</span>
+            {loading ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <SendHorizonal className="w-4 h-4" />
+            )}
           </button>
         </div>
-
-        {showPicker && (
-          <div
-            ref={pickerRef}
-            className="absolute bottom-14 right-0 z-50 shadow-lg rounded-lg border border-gray-300 bg-white"
-          >
-            <EmojiPicker
-              onEmojiClick={handleEmojiClick}
-              width={320}
-              height={350}
-              theme="light"
-              previewConfig={{ showPreview: false }}
-              frequentlyUsedEmoji={[]}
-            />
-          </div>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleImageChange}
-          className="hidden"
-        />
-
-        <button
-          onClick={onSend}
-          className="bg-blue-500 w-[14%] md:w-[10%] text-white p-2.5 rounded-xl hover:bg-blue-600 transition ml-4 font-semibold text-lg "
-          type="button"
-        >
-          <SendHorizonal className="lg:hidden "/>
-          <p className="hidden lg:block">Send</p>
-        </button>
       </div>
     </div>
   );

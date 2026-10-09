@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useMessageContext } from "../context/MessageContext";
-import { Search } from "lucide-react";
+import { Search, MoreHorizontal, MessageCircle, Bookmark } from "lucide-react";
 import Loader from "./Loader";
 import nodata from "../assets/cuate.svg";
 
-const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
-  const { unreadCounts, typingUsers, joinUserRoom, socket, unreadLoading } =
+const UserList = ({ 
+  users: initialUsers, 
+  loading, 
+  onUserSelect, 
+  isMobile,
+  selectedTab,
+  setSelectedTab,
+  unreadConnectionsCount,
+  unreadEmployersCount
+}) => {
+  const { unreadCounts, typingUsers, joinUserRoom, socket, unreadLoading, onlineUsers } =
     useMessageContext();
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState(initialUsers);
   const location = useLocation();
+  const activeUserId = location.pathname.split("/").pop();
 
   useEffect(() => {
     setUsers(initialUsers);
@@ -57,15 +67,29 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
     if (!timestamp) return null;
     const now = new Date();
     const msgDate = new Date(timestamp);
+    
     const isToday = msgDate.toDateString() === now.toDateString();
     if (isToday) {
       return msgDate.toLocaleTimeString([], {
-        hour: "2-digit",
+        hour: "numeric",
         minute: "2-digit",
+        hour12: true
       });
-    } else {
-      return msgDate.toLocaleDateString([], { month: "short", day: "numeric" });
     }
+
+    const diffTime = now - msgDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 7) return `${diffDays}d`;
+    
+    const diffWeeks = Math.floor(diffDays / 7);
+    if (diffWeeks < 4) return `${diffWeeks}w`;
+    
+    const diffMonths = Math.floor(diffDays / 30);
+    if (diffMonths < 12) return `${diffMonths}m`;
+    
+    const diffYears = Math.floor(diffDays / 365);
+    return `${diffYears}y`;
   };
 
   const filteredAndSortedUsers = users
@@ -95,41 +119,79 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
       );
     }
     
-    if (!loading && users.length === 0) {
-      return (
-        <div
-          className={`bg-white rounded-xl border border-gray-300 p-4 text-center text-gray-500 ${
-            isMobile ? "w-full" : "w-[35%]"
-          }`}
-        >
-        <div className="text-center py-8">
-        <img src={nodata} className="w-60 m-auto" />
-        No chats available!
+    const renderEmptyState = () => (
+      <div className="flex flex-col items-center justify-center h-full mt-10">
+        <img src={nodata} alt="No chats" className="w-48 h-48 opacity-80" />
+        <p className="text-gray-500 font-medium mt-4">No chats available!</p>
       </div>
-        </div>
-      );
-    }
+    );
     
 
   return (
     <div
-      className={`bg-white rounded-xl border border-gray-300 p-0 ${
+      className={`bg-white rounded-xl  p-0 flex flex-col h-full ${
         isMobile ? "w-full" : "w-[35%]"
       }`}
     >
-      <div className="relative p-4">
-        <Search className="absolute left-6 top-6 text-gray-400 w-6 h-6 pointer-events-none" />
+ 
+      <div className="px-4 mb-2">
+        <div className="flex bg-[#F4F4F5] p-1.5 rounded-xl gap-1.5">
+          <button
+            onClick={() => setSelectedTab?.("Connections")}
+            className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg transition font-semibold text-sm ${
+              selectedTab === "Connections"
+                ? "bg-white text-[#4361EE] shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <MessageCircle className="w-4 h-4 fill-current" />
+            CHATS
+            {unreadConnectionsCount > 0 && (
+              <span className={`px-1.5 py-0.5 rounded-md text-[10px] ${
+                selectedTab === "Connections" ? "bg-[#4361EE26]" : "bg-gray-200"
+              }`}>
+                {unreadConnectionsCount}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setSelectedTab?.("Employers")}
+            className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg transition font-semibold text-sm ${
+              selectedTab === "Employers"
+                ? "bg-white text-[#4361EE] shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Bookmark className="w-4 h-4 fill-current" />
+            Organisation
+            {unreadEmployersCount > 0 && (
+              <span className={`px-1.5 py-0.5 rounded-md text-[10px] ${
+                selectedTab === "Employers" ? "bg-[#4361EE26]" : "bg-gray-200"
+              }`}>
+                {unreadEmployersCount}
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+      
+      <div className="relative pb-3 px-4">
+        <Search className="absolute left-10 top-2.5 text-gray-400 w-5 h-5 pointer-events-none" />
         <input
           type="text"
           placeholder="Search..."
-          className="w-full pl-10 p-2 rounded-lg bg-gray-100 focus:outline-none"
+          className="w-full pl-11 p-2.5 rounded-xl bg-[#F4F4F5] border-none outline-none text-sm text-gray-700 font-medium"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <ul>
-        {filteredAndSortedUsers.map((user) => {
-          const profileImg = user.role === "employer" && user.companyLogo
+      <ul className="flex-1 overflow-y-auto custom-scroll">
+        {users.length === 0 && !loading && !search ? (
+          renderEmptyState()
+        ) : (
+          filteredAndSortedUsers.map((user) => {
+            const profileImg = user.role === "employer" && user.companyLogo
+
           ? `${user.companyLogo}`
           : user.onboarding?.profileImage
             ? `${user.onboarding.profileImage}`
@@ -144,12 +206,15 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
           const lastMessageTime = user.lastMessageTime
             ? formatMessageTime(user.lastMessageTime)
             : null;
+          const isActive = activeUserId === user._id;
           return (
-            <li key={user._id} className="my-1 mx-2">
+            <li key={user._id} className="mb-2 mx-4">
               {isMobile ? (
                 <button
                   onClick={() => onUserSelect(user._id)}
-                  className="w-full text-left flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100 transition relative"
+                  className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition relative ${
+                    isActive ? "bg-[#EEF2FF]" : "hover:bg-gray-50"
+                  }`}
                 >
                   <img
                     src={profileImg}
@@ -158,8 +223,11 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center">
-                      <span className="font-semibold text-gray-900 truncate">
+                      <span className="font-semibold text-gray-900 truncate flex items-center gap-1.5">
                         {name}
+                        {onlineUsers?.has(user._id?.toString()) && (
+                          <span className="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
+                        )}
                       </span>
                       {unreadCount > 0 && (
                         <span className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -188,7 +256,9 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
               ) : (
                 <Link
                   to={`/messages/${user._id}`}
-                  className="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-gray-100 transition relative"
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition relative ${
+                    isActive ? "bg-[#4361EE26]" : "hover:bg-gray-50"
+                  }`}
                 >
                   <img
                     src={profileImg}
@@ -197,11 +267,14 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center">
-                      <span className="font-semibold text-gray-900 truncate">
+                      <span className="font-semibold text-gray-900 truncate flex items-center gap-1.5">
                         {name}
+                        {onlineUsers?.has(user._id?.toString()) && (
+                          <span className="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
+                        )}
                       </span>
                       {unreadCount > 0 && (
-                        <span className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        <span className="bg-[#4F46E5] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                           {unreadCount}
                         </span>
                       )}
@@ -227,7 +300,8 @@ const UserList = ({ users: initialUsers, loading, onUserSelect, isMobile }) => {
               )}
             </li>
           );
-        })}
+        })
+      )}
       </ul>
     </div>
   );

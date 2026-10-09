@@ -179,58 +179,10 @@ const Messages = () => {
 
   return (
     <MessageProvider>
-      <div className="p-4">
-        <h2 className="text-lg font-semibold mb-4">Messages</h2>
-
-        {/* Tabs UI */}
-        <div className="flex gap-2 mb-4">
-          <button
-            className={`flex items-center gap-2 px-4 py-2 rounded border transition ${
-              selectedTab === "Connections"
-                ? "bg-blue-600 text-white border-transparent"
-                : "bg-white text-blue-600 border border-blue-600"
-            }`}
-            onClick={() => setSelectedTab("Connections")}
-          >
-            Connections
-            {unreadConnectionsCount > 0 && (
-              <span
-                className={`w-5 h-5 flex items-center justify-center text-xs rounded-full font-semibold ${
-                  selectedTab === "Connections"
-                    ? "bg-white text-blue-600"
-                    : "bg-blue-600 text-white"
-                }`}
-              >
-                {unreadConnectionsCount}
-              </span>
-            )}
-          </button>
-
-          <button
-            className={`flex items-center gap-2 px-4 py-2 rounded border transition ${
-              selectedTab === "Employers"
-                ? "bg-blue-600 text-white border-transparent"
-                : "bg-white text-blue-600 border border-blue-600"
-            }`}
-            onClick={() => setSelectedTab("Employers")}
-          >
-            Employers
-            {unreadEmployersCount > 0 && (
-              <span
-                className={`w-5 h-5 flex items-center justify-center text-xs rounded-full font-semibold ${
-                  selectedTab === "Employers"
-                    ? "bg-white text-blue-600"
-                    : "bg-blue-600 text-white"
-                }`}
-              >
-                {unreadEmployersCount}
-              </span>
-            )}
-          </button>
-        </div>
+      <div className="h-[calc(100vh-130px)] flex flex-col" >
 
         <div
-          className={`flex gap-4 h-[calc(100vh-150px)] ${
+          className={`flex gap-4 flex-1 min-h-0 ${
             isMobile ? "flex-col" : ""
           }`}
         >
@@ -240,6 +192,10 @@ const Messages = () => {
               loading={selectedTab === "Employers" ? employerLoading : loading}
               onUserSelect={handleUserSelect}
               isMobile={isMobile}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+              unreadConnectionsCount={unreadConnectionsCount}
+              unreadEmployersCount={unreadEmployersCount}
             />
           )}
           {showMessageDetail && (
@@ -248,7 +204,7 @@ const Messages = () => {
                 index
                 element={
                   !isMobile ? (
-                    <div className="w-full bg-white rounded shadow p-4 flex items-center justify-center">
+                    <div className="w-full bg-[#F6F6FA] rounded-xl p-4 flex items-center justify-center">
                       <div className="h-full flex flex-col items-center justify-center text-gray-500 text-center">
                         <div className="text-4xl mb-2">👋</div>
                         <p className="text-lg">
