@@ -33,7 +33,6 @@ import SignupForm from "./components/Signup";
 import AutoCarousel from "./components/AutoCarousel";
 import ApplicationListing from "./pages/ApplicationListing";
 import AppliedJobs from "./components/AppliedJobs";
-import LandingPage from "./pages/LandingPage";
 import Profile from "./components/ProfileActivity";
 import Feeds from "./pages/Feeds";
 import Profile_Design from "./pages/profile/Profile_Design";
@@ -52,7 +51,7 @@ function App() {
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -73,7 +72,7 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/signup" element={<SignupForm />} />
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LoginForm />} />
 
         {/*PROTECTED ROUTES  */}
         <Route

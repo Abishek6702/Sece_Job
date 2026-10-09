@@ -75,7 +75,7 @@ const ResumeScoreChecker = () => {
       const data = await response.json();
 
       // Navigate to result page and pass data
-      navigate("/result", {
+      navigate("/employee-dashboard/result", {
         state: { analysis: data, fileName: file.name, jobTitle },
       });
     } catch (err) {

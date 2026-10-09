@@ -17,7 +17,7 @@ import {jwtDecode} from "jwt-decode";
 
 const getUserId = () => {
   try {
-    const token = localStorage.getItem("token"); // or whatever you saved it as
+    const token = localStorage.getItem("carvion-key"); // or whatever you saved it as
     if (!token) return null;
     const decoded = jwtDecode(token);
     return decoded.id || decoded.userId; // depends on your backend payload
@@ -130,7 +130,7 @@ const Resume_Builder = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("carvion-key")}`,
       },
       body: JSON.stringify(dataToSend),
     });
@@ -181,7 +181,7 @@ const Resume_Builder = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("carvion-key")}`,
       },
       body: JSON.stringify(finalData),
     });

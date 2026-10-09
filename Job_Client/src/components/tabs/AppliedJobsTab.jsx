@@ -4,7 +4,7 @@ import ApplicationModal from "../../components/tabs/ApplicationModal ";
 import nodata from "../../assets/cuate.svg";
 import { useNavigate } from "react-router-dom";
 
-const getToken = () => localStorage.getItem("token");
+const getToken = () => localStorage.getItem("carvion-key");
 
 const AppliedJobsTab = ({ jobs = [], savedJobs = [], toggleSaveJob }) => {
   const [applications, setApplications] = useState([]);

@@ -6,7 +6,7 @@ const ProfileCard = ({ profile, loading }) => {
 
  useEffect(() => {
   if (profile) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     console.log("Fetching posts for user:", profile._id);
 
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/posts/my-posts`, {

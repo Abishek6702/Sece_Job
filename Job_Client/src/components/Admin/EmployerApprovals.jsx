@@ -15,7 +15,7 @@ const EmployerApprovals = () => {
 
   const [activeTab, setActiveTab] = useState("approved");
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
 
   useEffect(() => {
     fetchPendingEmployers();

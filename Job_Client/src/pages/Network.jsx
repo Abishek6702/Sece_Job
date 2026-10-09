@@ -22,7 +22,7 @@ const Network = () => {
   const activeTab = queryParams.get("tab") || "all";
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -46,7 +46,7 @@ const Network = () => {
   }, [currentUserId]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     setLoading(true);
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/all`, {
       headers: { Authorization: `Bearer ${token}` },

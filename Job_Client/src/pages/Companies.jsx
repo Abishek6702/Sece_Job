@@ -27,7 +27,7 @@ const Companies = () => {
   // Fetch companies on mount
   useEffect(() => {
     const fetchCompanies = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/companies`,

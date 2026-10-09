@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import login_img from "../assets/login.png";
+import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import AutoCarousel from "./AutoCarousel";
+import logo from "../assets/logo.svg";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
-import logo from "../assets/logomain.svg";
-import bgimg from "../assets/bgimg.jpg";
-import AutoCarousel1 from "./AutoCarousel1";
+
 function autoRedirectBasedOnToken(navigate) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (token) {
     try {
       const decoded = jwtDecode(token);
@@ -25,7 +23,7 @@ function autoRedirectBasedOnToken(navigate) {
             return;
           case "employee":
             if (onboardingComplete) {
-              navigate("/feeds");
+              navigate("/employee-dashboard");
             } else {
               navigate("/onbordingform");
             }
@@ -33,23 +31,20 @@ function autoRedirectBasedOnToken(navigate) {
           case "employer":
             navigate("/employer-dashboard");
             return;
-          case "instructor":
-            navigate("/instructor-dashboard");
-            return;
           default:
-            navigate("/login");
+            navigate("/");
             return;
         }
       } else {
-        localStorage.removeItem("token");
-        navigate("/login");
+        localStorage.removeItem("carvion-key");
+        navigate("/");
       }
     } catch (e) {
-      localStorage.removeItem("token");
-      navigate("/login");
+      localStorage.removeItem("carvion-key");
+      navigate("/");
     }
   } else {
-    navigate("/login");
+    navigate("/");
   }
 }
 
@@ -70,6 +65,20 @@ const LoginForm = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Email is invalid");
+      return;
+    }
+    if (!password) {
+      setError("Password is required");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -98,7 +107,7 @@ const LoginForm = () => {
         throw new Error(data.message || "Login failed");
       }
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("carvion-key", data.token);
 
       autoRedirectBasedOnToken(navigate);
 
@@ -127,101 +136,100 @@ const LoginForm = () => {
 
     fetchVisitorCount();
   }, []);
-
   return (
-    <div className="main-container flex items-center justify-between gap-8 bg-gray-50 ">
-      <div className="left-container w-[100%]  lg:w-[45%] h-[100vh] flex items-center justify-center   m-auto ">
-        <div className="content-container w-[90%] m-auto ">
-          <div className=" ">
-            {/* <img src={logo} className="" /> */}
-            <h1 className=" lg:text-3xl text-1xl font-bold text-gray-900">
-              {" "}
-              Carrer <span className="text-[#155dfc]">Connect</span>
-            </h1>
-          </div>
-          <p className="text-[32px] font-medium">Login to your account</p>
-
-          <form className="login-form mt-[25px]" onSubmit={handleLogin}>
-            <div className="email mb-2">
-              <label htmlFor="email" className=" font-medium text-gray-700">
-                E-mail Id
-              </label>
-              <input
-                type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email-Id"
-                className="w-full border border-gray-300  py-2 px-4 text-[16px] rounded-md outline-none focus:border-[#155dfc] focus:border-2"
-              />
-            </div>
-
-            <div className="password relative mb-2">
-              <label htmlFor="password" className=" font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="w-full border border-gray-300 py-2 px-4 rounded-md outline-none text-[16px] focus:border-[#155dfc] focus:border-2"
-              />
-
-              <div className="icon absolute bottom-[11px] right-[20px] text-gray-500 hover:text-gray-700">
-                {showPassword ? (
-                  <EyeOff
-                    className="h-5 w-5 cursor-pointer"
-                    onClick={() => setShowPassword(false)}
-                  />
-                ) : (
-                  <Eye
-                    className="h-5 w-5 cursor-pointer"
-                    onClick={() => setShowPassword(true)}
-                  />
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end">
-              <Link to="/forget-password">
-                {" "}
-                <p className="forgot-password mt-[14px] mb-[20px] text-blue-600 cursor-pointer">
-                  Forgot Password?
-                </p>
-              </Link>
-            </div>
-
-            {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-            {success && (
-              <p className="text-green-600 text-sm mb-2">{success}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full p-[8px] bg-blue-600 text-white rounded-md font-medium text-[20px] cursor-pointer"
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-
-            <p className="w-full mt-[20px] text-center text-[18px] text-gray-600 ">
-              Don't have an account?{" "}
-              <Link to="/signup">
-                {" "}
-                <span className="text-blue-600 cursor-pointer">Sign Up</span>
-              </Link>
-            </p>
-          </form>
-          <p className="absolute bottom-6 text-gray-600 ">
-            © 2025 QuantumPulse Technologies Pvt. Ltd. All Rights Reserved
-          </p>
+    <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-sans px-4">
+      <div className="bg-white rounded-[32px] p-10 md:p-14 shadow-xl w-full max-w-[550px] flex flex-col relative">
+        <div className="flex justify-center mb-8">
+          <img src={logo} alt="Logo" className="w-48" />
         </div>
-      </div>
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">
+          Welcome Back
+        </h2>
+        <p className="text-gray-500 text-center mb-8">
+          Login to your account to continue
+        </p>
 
-      <div className="right-container w-[60%]   h-[100vh] hidden  lg:flex items-center justify-center">
-        <AutoCarousel />
+        <form className="login-form flex flex-col gap-5" onSubmit={handleLogin}>
+          <div className="email flex flex-col">
+            <label htmlFor="email" className="font-semibold text-gray-700 mb-2">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full border-2 border-gray-100 bg-[#F9FAFC] py-3 px-5 text-[16px] rounded-2xl outline-none focus:border-blue-600 focus:bg-white transition-all"
+            />
+          </div>
+
+          <div className="password flex flex-col relative">
+            <label
+              htmlFor="password"
+              className="font-semibold text-gray-700 mb-2"
+            >
+              Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full border-2 border-gray-100 bg-[#F9FAFC] py-3 px-5 text-[16px] rounded-2xl outline-none focus:border-blue-600 focus:bg-white transition-all pr-12"
+            />
+            <div className="absolute bottom-[14px] right-[18px] text-gray-400 hover:text-gray-600 transition-colors">
+              {showPassword ? (
+                <EyeOff
+                  className="h-5 w-5 cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <Eye
+                  className="h-5 w-5 cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end">
+            <Link to="/forget-password">
+              <span className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition-colors">
+                Forgot Password?
+              </span>
+            </Link>
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm font-medium text-center">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p className="text-green-500 text-sm font-medium text-center">
+              {success}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 mt-2 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-[16px] cursor-pointer transition-all shadow-md"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <p className="w-full mt-6 text-center text-[15px] text-gray-500">
+            Don't have an account?{" "}
+            <Link to="/signup">
+              <span className="text-blue-600 hover:text-blue-700 font-bold cursor-pointer transition-colors">
+                Sign Up
+              </span>
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import { MessageProvider } from "../context/MessageContext";
 import { useMessageContext } from "../context/MessageContext";
 
 const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return null;
   try {
     const decoded = jwtDecode(token);
@@ -48,7 +48,7 @@ const Messages = () => {
 
   // Fetch all users
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/all`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -66,7 +66,7 @@ const Messages = () => {
   // Fetch current user profile
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const userId = currentUserId;
       if (!userId || !token) {
         setLoading(false);
@@ -106,7 +106,7 @@ const Messages = () => {
 
     const fetchEmployerConversations = async () => {
       setEmployerLoading(true);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const userId = getUserIdFromToken();
 
       if (!userId) {

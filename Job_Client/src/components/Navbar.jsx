@@ -36,7 +36,7 @@ const Navbar = ({ socket, currentUserId }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!token) return;
       let userId;
       try {

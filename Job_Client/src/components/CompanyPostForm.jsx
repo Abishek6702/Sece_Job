@@ -75,7 +75,7 @@ export default function CompanyPostForm() {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const form = new FormData();
 
       form.append("company_name", formData.company_name);

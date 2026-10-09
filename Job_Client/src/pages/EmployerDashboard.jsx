@@ -18,7 +18,7 @@ const EmployerDashboard = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decoded = jwtDecode(token);

@@ -35,7 +35,7 @@ const JobDetailModel = ({ job, handleClose }) => {
   };
 
   const handleConfirmDelete = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
 
     try {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/jobs/${jobId}`, {

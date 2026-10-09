@@ -51,7 +51,7 @@ const CompanyDetails = ({ companyDetails, setFullScreeen, fullScreen }) => {
     console.log("job id for job : ", visibleJobs);
   }
   const getAppliedJobsFromToken = () => {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("carvion-key"); 
     if (token) {
       const decodedToken = jwtDecode(token);
       console.log("token decoded", decodedToken);

@@ -43,7 +43,7 @@ export default function InprogressApplicationStatusChange({
     }
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       let res;
       if (isBulk) {
         res = await fetch(

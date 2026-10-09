@@ -47,7 +47,7 @@ const ResumePreview = ({previewTrigger }) => {
       return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     console.log("Token from localStorage:", token);
 
     if (!token) {

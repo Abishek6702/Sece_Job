@@ -80,7 +80,7 @@ const JobBoard = () => {
 
   // Decode user ID token
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -95,7 +95,7 @@ const JobBoard = () => {
   useEffect(() => {
     if (!userId) return;
     setAppliedLoading(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     fetch(
       `${
         import.meta.env.VITE_API_BASE_URL
@@ -111,7 +111,7 @@ const JobBoard = () => {
   // Fetch all jobs on mount
   useEffect(() => {
     setJobsLoading(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/jobs`, {
       headers: { Authorization: `Bearer ${token}` },
     })

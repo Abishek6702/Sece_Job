@@ -16,7 +16,7 @@ const EmployerNavbar = () => {
   const [unreadUsersCount, setUnreadUsersCount] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -30,7 +30,7 @@ const EmployerNavbar = () => {
 
   useEffect(() => {
     const fetchUnreadCounts = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!token) return;
 
       try {

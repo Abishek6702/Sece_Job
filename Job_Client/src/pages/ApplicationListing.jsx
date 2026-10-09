@@ -55,7 +55,7 @@ const CandidatesApplication = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         if (!token) {
           setLoading(false);
           return;
@@ -278,7 +278,7 @@ console.log("yu8cva",applications)
     closeStatusModal();
     setSelectedApplications([]);
     setLoading(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     const res = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/api/applications`,
       {

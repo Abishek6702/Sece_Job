@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 export function autoRedirectBasedOnToken(navigate) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (token) {
     try {
       const decoded = jwtDecode(token);
@@ -17,7 +17,7 @@ export function autoRedirectBasedOnToken(navigate) {
             return;
           case "employee":
             if (onboardingComplete) {
-              navigate("/feeds", { replace: true });
+              navigate("/employee-dashboard/feeds", { replace: true });
             } else {
               navigate("/onbordingform", { replace: true });
             }
@@ -33,10 +33,10 @@ export function autoRedirectBasedOnToken(navigate) {
             return;
         }
       } else {
-        localStorage.removeItem("token");
+        localStorage.removeItem("carvion-key");
       }
     } catch (e) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("carvion-key");
     }
   }
 }

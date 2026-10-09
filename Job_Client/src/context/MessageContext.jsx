@@ -17,7 +17,7 @@ export const MessageProvider = ({ children }) => {
 
   // Socket connection
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     const newSocket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
       auth: { token },
       transports: ["websocket", "polling"],
@@ -31,7 +31,7 @@ export const MessageProvider = ({ children }) => {
     const fetchUnreadCounts = async () => {
       setUnreadLoading(true);
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/messages/unread-count`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -73,7 +73,7 @@ export const MessageProvider = ({ children }) => {
   // Mark as read (when chat is opened)
   const markMessagesRead = useCallback(async (senderId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/messages/read/${senderId}`,
         { method: "PATCH", headers: { Authorization: `Bearer ${token}` } }

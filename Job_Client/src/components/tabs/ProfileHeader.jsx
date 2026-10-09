@@ -3,7 +3,7 @@ import axios from "axios";
 
 const ProfileHeader = ({ profile }) => {
   const profileImageInputRef = useRef(null);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   const onboarding = profile.onboarding || {};
   const fullName = onboarding.firstName
     ? `${onboarding.firstName} ${onboarding.lastName}`

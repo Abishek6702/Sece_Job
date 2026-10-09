@@ -32,7 +32,7 @@ const UserProfile = () => {
   const { userId: routeUserId } = useParams(); // If you use route params for profile
   const [profile, setProfile] = useState(null);
   const [appliedJob, setAppliedJob] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   const [userId, setUserId] = useState(null);
   const { savedJobs, toggleSaveJob, appliedJobs } = useAppContext();
   const bannerImageInputRef = useRef(null);
@@ -191,7 +191,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     toast.info("Logout Successful");
-    localStorage.removeItem("token");
+    localStorage.removeItem("carvion-key");
     navigate("/login");
   };
 

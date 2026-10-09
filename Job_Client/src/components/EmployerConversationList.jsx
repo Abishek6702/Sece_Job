@@ -7,7 +7,7 @@ import nodata from "../assets/cuate.svg";
 import Loader from "./Loader";
 
 const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return null;
   try {
     const decoded = jwtDecode(token);
@@ -43,7 +43,7 @@ const EmployerConversationList = () => {
       setLoading(true);
       setError(null);
       const userId = getUserIdFromToken();
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!userId || !token) {
         setError("User not authenticated.");
         setLoading(false);

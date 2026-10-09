@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import image from "../assets/verifyotp.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppProvider";
-import AutoCarousel from "./AutoCarousel";
-import logo from "../assets/logomain.svg"
+import logo from "../assets/logo.svg";
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
@@ -14,6 +13,12 @@ const VerifyOtp = () => {
   const { resetEmail } = useAppContext();
 
   const handleVerify = async () => {
+    if (!otp.trim()) {
+      setError("OTP is required.");
+      setMessage("");
+      return;
+    }
+
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-reset-otp`,
@@ -51,36 +56,36 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div className="md:grid grid-cols-2">
-      <div className="left-container flex items-center justify-center h-[100vh]">
-        <div className="content-container w-[90%] mb-[25px] space-y-4">
-          <div className="w-40">
-          <img src={logo} alt="" />
+    <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-sans px-4 py-8">
+      <div className="bg-white rounded-[32px] p-10 md:p-14 shadow-xl w-full max-w-[550px] flex flex-col relative">
+        <div className="flex justify-center mb-8">
+          <img src={logo} alt="Logo" className="w-48" />
         </div>
-          <h1 className="text-[26px]">Verify Code</h1>
-          <div className="space-y-4">
-            <label className="text-[18px]">Enter Code</label>
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">Verify Code</h2>
+        <p className="text-gray-500 text-center mb-8">Enter the code sent to your email</p>
+
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
+            <label className="font-semibold text-gray-700 mb-2">Enter Code</label>
             <input
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               placeholder="Enter your OTP here"
-              className="outline-none border border-gray-700 rounded-[6px] p-2 px-4 w-full text-[16px] mt-1"
+              className="w-full border-2 bg-[#F9FAFC] py-3 px-5 text-[16px] rounded-2xl outline-none focus:bg-white transition-all border-gray-100 focus:border-blue-600"
             />
-
-            <button
-              onClick={handleVerify}
-              className="w-full bg-blue-600 rounded-[6px] text-white p-[8px] text-[20px] font-semibold cursor-pointer"
-            >
-              Verify
-            </button>
-            {message && <p className="text-green-600 mt-2">{message}</p>}
-            {error && <p className="text-red-600 mt-2">{error}</p>}
           </div>
+
+          <button
+            onClick={handleVerify}
+            className="w-full py-4 mt-2 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-[16px] cursor-pointer transition-all shadow-md"
+          >
+            Verify
+          </button>
+          
+          {message && <p className="text-green-500 font-medium text-center mt-2 text-sm">{message}</p>}
+          {error && <p className="text-red-500 font-medium text-center mt-2 text-sm">{error}</p>}
         </div>
-      </div>
-      <div className="right-container w-[100%] h-[100vh] hidden  lg:flex items-center justify-center">
-        <AutoCarousel />
       </div>
     </div>
   );

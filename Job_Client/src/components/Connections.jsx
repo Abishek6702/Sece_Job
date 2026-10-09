@@ -21,7 +21,7 @@ const Connections = ({ currentUserId }) => {
 
   // Fetch all users
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (!token) return;
 
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/all`, {

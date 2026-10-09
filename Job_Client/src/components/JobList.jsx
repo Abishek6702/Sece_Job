@@ -19,7 +19,7 @@ const JobList = () => {
   useEffect(() => {
     const fetchJobsForEmployer = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         let employerId = null;
 
         if (token) {

@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("carvion-key");
     navigate("/login");
   };
 

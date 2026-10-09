@@ -4,7 +4,7 @@ import { FileText, Download, Upload } from "lucide-react";
 
 const ResumeTab = ({ onboarding }) => {
   const resumeInputRef = useRef(null);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
 
   const handleResumeButtonClick = () => {
     resumeInputRef.current.click();

@@ -19,7 +19,7 @@ export const EmployerMessageProvider = ({ children }) => {
 
   // Initialize Socket connection
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (!token) return;
 
     const newSocket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
@@ -41,7 +41,7 @@ export const EmployerMessageProvider = ({ children }) => {
     const fetchUnreadCounts = async () => {
       setUnreadLoading(true);
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/messages/unread-count`,
           {
@@ -108,7 +108,7 @@ export const EmployerMessageProvider = ({ children }) => {
   const markMessagesRead = useCallback(
     async (senderId) => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/messages/read/${senderId}`, {
           method: "PATCH",
           headers: {

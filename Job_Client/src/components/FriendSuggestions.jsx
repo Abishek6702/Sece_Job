@@ -7,7 +7,7 @@ export default function JobSuggestions() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
 
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/jobs`, {
       headers: { Authorization: `Bearer ${token}` },

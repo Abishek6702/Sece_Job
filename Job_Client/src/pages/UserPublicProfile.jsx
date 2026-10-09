@@ -22,7 +22,7 @@ const UserPublicProfile = () => {
   const [connectionStatus, setConnectionStatus] = useState("connect");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
 
   // Responsive flag
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -34,7 +34,7 @@ const UserPublicProfile = () => {
 
   // Get logged-in user ID from JWT
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (token) {
       try {
         const decoded = jwtDecode(token);

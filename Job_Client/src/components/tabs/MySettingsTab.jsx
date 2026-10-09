@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function MySettingsTab() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   let email = "";
   try {
     email = jwtDecode(token)?.email || "";
@@ -318,7 +318,7 @@ export default function MySettingsTab() {
                   <button
                     className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-semibold flex gap-2 items-center"
                     onClick={() => {
-                      localStorage.removeItem("token");
+                      localStorage.removeItem("carvion-key");
                       setShowLogoutModal(false);
                       navigate("/"); 
                     }}

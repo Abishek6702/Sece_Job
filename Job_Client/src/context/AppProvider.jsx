@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   //  Get userId  from token
   const getUserIdFromToken = () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (token) {
         const decoded = jwtDecode(token);
         console.log("Decoded token:", decoded);
@@ -28,7 +28,7 @@ export const AppProvider = ({ children }) => {
   //  Fetch saved jobs
   const fetchSavedJobs = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/jobs/saved`,
         {
@@ -45,7 +45,7 @@ export const AppProvider = ({ children }) => {
   // Fetch applied jobs using userId
   const fetchAppliedJobs = async (userId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const response = await axios.get(
         `${
           import.meta.env.VITE_API_BASE_URL
@@ -66,7 +66,7 @@ export const AppProvider = ({ children }) => {
   // Toggle save job logic
   const toggleSaveJob = async (jobId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/jobs/toggle-save-job`,
         { jobId },

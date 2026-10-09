@@ -36,7 +36,7 @@ export default function ApplicationStatusChange({
     }
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       let res;
       const body = isBulk
         ? JSON.stringify({

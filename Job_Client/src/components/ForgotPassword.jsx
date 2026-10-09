@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import image from "../assets/forgotpassword.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppProvider";
-import AutoCarousel from "./AutoCarousel";
-import logo from "../assets/logomain.svg"
+import logo from "../assets/logo.svg";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -17,8 +16,12 @@ const ForgotPassword = () => {
   };
 
   const handleForgotPassword = async () => {
-    if (!email) {
-      showMessage("error", "Please enter your email.");
+    if (!email.trim()) {
+      showMessage("error", "Email is required.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      showMessage("error", "Email is invalid.");
       return;
     }
 
@@ -52,50 +55,43 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="md:grid grid-cols-2 bg-gray-50">
-      <div className="Left-container   h-[100vh] flex items-center justify-center">
-        <div className="content-container w-[90%] p-[8px] mb-[25px] space-y-4">
-          <div className="w-40">
-          <img src={logo} alt="" />
+    <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-sans px-4 py-8">
+      <div className="bg-white rounded-[32px] p-10 md:p-14 shadow-xl w-full max-w-[550px] flex flex-col relative">
+        <div className="flex justify-center mb-8">
+          <img src={logo} alt="Logo" className="w-48" />
         </div>
-          <h1 className="text-[26px]">Forgot Password</h1>
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">Forgot Password</h2>
+        <p className="text-gray-500 text-center mb-8">Enter your email to receive an OTP</p>
 
-          <div className="input-fields space-y-5">
-            <label htmlFor="email" className="text-[18px]">
-              E-mail Id
+        <div className="input-fields flex flex-col gap-5">
+          <div className="flex flex-col">
+            <label htmlFor="email" className="font-semibold text-gray-700 mb-2">
+              Email Address
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="outline-none border border-gray-300 focus:border-[#155dfc] focus:border-2 rounded-[6px] p-2 px-4 w-full text-[16px] mt-1"
-              placeholder="Enter your email-Id"
+              className="w-full border-2 bg-[#F9FAFC] py-3 px-5 text-[16px] rounded-2xl outline-none focus:bg-white transition-all border-gray-100 focus:border-blue-600"
+              placeholder="Enter your email"
             />
-
-            {message.text && (
-              <p
-                className={`text-sm ${
-                  message.type === "success" ? "text-blue-600" : "text-red-600"
-                }`}
-              >
-                {message.text}
-              </p>
-            )}
-
-            <button
-              className="w-full bg-blue-600 rounded-[6px] text-white p-[8px] text-[20px] font-semibold cursor-pointer"
-              onClick={handleForgotPassword}
-              disabled={loading}
-            >
-              {loading ? "Sending OTP..." : "Get OTP"}
-            </button>
           </div>
-        </div>
-      </div>
 
-      <div className="right-container  w-[100%] h-[100vh] hidden  lg:flex items-center justify-center">
-        <AutoCarousel />
+          {message.text && (
+            <p className={`text-sm font-medium text-center ${message.type === "success" ? "text-green-500" : "text-red-500"}`}>
+              {message.text}
+            </p>
+          )}
+
+          <button
+            className="w-full py-4 mt-2 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-[16px] cursor-pointer transition-all shadow-md"
+            onClick={handleForgotPassword}
+            disabled={loading}
+          >
+            {loading ? "Sending OTP..." : "Get OTP"}
+          </button>
+        </div>
       </div>
     </div>
   );

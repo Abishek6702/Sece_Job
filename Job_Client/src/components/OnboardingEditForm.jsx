@@ -75,7 +75,7 @@ export default function OnboardingEditForm({ initialData, onClose }) {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!token) throw new Error("Token not found");
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;

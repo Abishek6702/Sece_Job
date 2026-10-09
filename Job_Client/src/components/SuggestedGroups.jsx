@@ -9,7 +9,7 @@ export default function SuggestionCompanys({ activeCompany }) {
   const normalizeName = (name) => name?.trim().toLowerCase() || "";
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
 
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/companies`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -74,7 +74,7 @@ export default function SuggestionCompanys({ activeCompany }) {
           return (
             <div
               key={normalizedKey}
-              onClick={() => navigate(`/companies`)}
+              onClick={() => navigate("/companies")}
               className={`rounded-lg p-3  cursor-pointer transition hover:bg-gray-50 ${
                 isActive ? "border-blue-400 bg-gray-50" : "border-gray-200"
               }`}

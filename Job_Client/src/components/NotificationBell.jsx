@@ -7,7 +7,7 @@ const NotificationBell = ({ socket, userId }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
 
     if (!userId) return;
     fetch(

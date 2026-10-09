@@ -10,7 +10,7 @@ import LineChartUsers from "./LineChartUsers.jsx";
 import RegionPieChart from "./RegionPieChart.jsx";
 
 const DashboardOverview = ({ setActiveTab }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
 
   const [stats, setStats] = useState({
     totalEmployees: 0,

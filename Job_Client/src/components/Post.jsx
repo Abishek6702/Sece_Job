@@ -84,7 +84,7 @@ const Post = ({ post, profile }) => {
 
   const handleLike = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const res = await axios.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/posts/${post._id}/like`,
         {},
@@ -102,7 +102,7 @@ const Post = ({ post, profile }) => {
   const handleComment = async () => {
     if (!newComment.trim()) return;
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/posts/${post._id}/comment`,
         { content: newComment },

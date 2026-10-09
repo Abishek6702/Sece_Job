@@ -15,7 +15,7 @@ const SelectedNotSelected = () => {
   useEffect(() => {
     const fetchJobsForEmployer = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         let employerId = null;
 
         if (token) {
@@ -75,7 +75,7 @@ const SelectedNotSelected = () => {
 
   useEffect(() => {
     const fetchApplications = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const applicationsRes = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/applications`,
         {

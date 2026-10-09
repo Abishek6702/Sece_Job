@@ -67,7 +67,7 @@ const FeedsPost = ({ onClose, onPostCreated }) => {
     setIsSubmitting(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const formData = new FormData();
 
       formData.append("content", content);

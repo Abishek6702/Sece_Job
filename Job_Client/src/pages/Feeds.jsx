@@ -9,7 +9,7 @@ import SuggestedGroups from "../components/SuggestedGroups";
 
 // Helper to get userId from token
 const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return null;
   try {
     const decoded = jwtDecode(token);
@@ -26,7 +26,7 @@ const Feeds = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const userId = getUserIdFromToken();
 
       if (!userId || !token) {

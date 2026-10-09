@@ -62,7 +62,7 @@ const SelectedApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         if (!token) {
           setLoading(false);
           return;

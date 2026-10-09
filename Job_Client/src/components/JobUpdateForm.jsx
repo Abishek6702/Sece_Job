@@ -75,7 +75,7 @@ export default function JobUpdateForm({ job, onClose }) {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const form = new FormData();
       const safeJSON = (value) => JSON.stringify(value ?? "");
 
@@ -122,7 +122,7 @@ export default function JobUpdateForm({ job, onClose }) {
   const handleConfirmExit = () => onClose();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (!token) return;
 
     let userId = null;

@@ -11,7 +11,7 @@ const AppliedJobs = ({ jobs, userId }) => {
 
   useEffect(() => {
     const fetchApplications = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!token) {
         console.error("No token found in localStorage");
         return;
@@ -105,7 +105,7 @@ const AppliedJobs = ({ jobs, userId }) => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       if (!token) {
         alert("You must be logged in to withdraw an application.");
         setOpenDropdownId(null);

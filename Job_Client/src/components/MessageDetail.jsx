@@ -6,7 +6,7 @@ import { EmojiPicker } from "@ferrucc-io/emoji-picker";
 import EmojiInput from "./EmojiInput";
 
 function getUserIdFromToken() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return null;
   try {
     const decoded = jwtDecode(token);
@@ -37,7 +37,7 @@ const MessageDetail = ({ isMobile, onBack }) => {
   useEffect(() => {
     const fetchRecipientProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         const response = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/auth/${userId}`,
           {
@@ -58,7 +58,7 @@ const MessageDetail = ({ isMobile, onBack }) => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("carvion-key");
         const response = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/messages/${userId}`,
           {
@@ -115,7 +115,7 @@ const MessageDetail = ({ isMobile, onBack }) => {
   const handleSendMessage = async () => {
     if (!newMessage.trim() && !imageFile) return;
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const formData = new FormData();
       formData.append("recipient", userId);
       formData.append("content", newMessage);

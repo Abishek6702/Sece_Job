@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 function isTokenValid() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return false;
   try {
     const decoded = jwtDecode(token);
@@ -11,10 +11,10 @@ function isTokenValid() {
     if (decoded.exp && decoded.exp > currentTime) {
       return true;
     }
-    localStorage.removeItem("token");
+    localStorage.removeItem("carvion-key");
     return false;
   } catch {
-    localStorage.removeItem("token");
+    localStorage.removeItem("carvion-key");
     return false;
   }
 }

@@ -53,7 +53,7 @@ const JobApplicationForm = () => {
 
   // Load Profile Data
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (!token) return;
     let userId;
     try {
@@ -196,7 +196,7 @@ const handleExperienceChange = (e) => {
 
     setIsSubmitting(true); // 🔹 Start loading
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
     if (!token) {
       alert("You need to log in first!");
       navigate("/login");

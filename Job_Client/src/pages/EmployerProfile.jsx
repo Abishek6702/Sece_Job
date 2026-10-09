@@ -10,7 +10,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 import CompanyUpdateForm from "../components/CompanyUpdateForm";
 const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
   if (!token) return null;
 
   try {
@@ -34,7 +34,7 @@ const EmployerProfile = () => {
 
   useEffect(() => {
     const fetchCompanies = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("carvion-key");
       const userId = getUserIdFromToken();
 
       if (!userId || !token) return;
@@ -78,7 +78,7 @@ const EmployerProfile = () => {
     setShowDeleteModal(false);
   };
   const handleConfirmDelete = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("carvion-key");
 
     try {
       await axios.delete(
@@ -95,7 +95,7 @@ const EmployerProfile = () => {
 
       // 👇 Navigate to employer dashboard
       alert("Company and its associated jobs deleted sucessfully");
-      localStorage.removeItem("token");
+      localStorage.removeItem("carvion-key");
       navigate("/");
       window.location.reload(); // 🔥 Forces full page reload (last resort)
     } catch (error) {

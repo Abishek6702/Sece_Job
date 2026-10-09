@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 const COLORS = ["#3B82F6", "#10B981", "#F59E0B"];
 
 const RegionPieChart = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("carvion-key");
 
   const [data, setData] = useState([
     { name: "Employees", value: 0 },
