@@ -5,6 +5,7 @@ const Message = require("../models/Message");
 const Onboarding = require("../models/onboarding");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/upload");
+const cloudinary = require("../config/cloudinary");
 const User = require("../models/User"); // Assuming you have a User model with 'role' field
 const Company = require("../models/company");
 
@@ -435,6 +436,42 @@ router.post("/conversations-for-employer", async (req, res) => {
   }
 });
 
+// Delete a message (hard delete for everyone)
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    const userId = req.user._id;
+    const message = await Message.findById(messageId);
+    
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
 
+    if (message.sender.toString() !== userId.toString()) {
+      return res.status(403).json({ error: "You can only delete your own messages" });
+    }
+
+    // Delete image/file from cloudinary if publicId exists
+    if (message.publicId) {
+      try {
+        let resourceType = "image";
+        if (message.fileType?.startsWith("video/")) {
+          resourceType = "video";
+        } else if (message.fileType && !message.fileType.startsWith("image/")) {
+          resourceType = "raw"; 
+        }
+        await cloudinary.uploader.destroy(message.publicId, { resource_type: resourceType });
+      } catch (cloudinaryError) {
+        console.error("Error deleting file from cloudinary:", cloudinaryError);
+      }
+    }
+
+    await Message.findByIdAndDelete(messageId);
+    res.json({ message: "Message deleted successfully", messageId });
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;

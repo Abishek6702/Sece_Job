@@ -36,7 +36,7 @@ const app = express();
 const server = http.createServer(app);
 
 
-const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5183"];
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5183","http://10.57.1.69:5183"];
 
 // Socket.IO setup
 const io = socketIo(server, {
@@ -153,6 +153,10 @@ io.on("connection", (socket) => {
 
   socket.on("stop-typing", ({ recipientId }) => {
     socket.to(recipientId).emit("stop-typing");
+  });
+
+  socket.on("delete-message", ({ messageId, recipientId }) => {
+    socket.to(recipientId).emit("delete-message", messageId);
   });
 });
 
