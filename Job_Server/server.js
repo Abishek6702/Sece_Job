@@ -36,7 +36,7 @@ const app = express();
 const server = http.createServer(app);
 
 
-const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5183","http://10.57.1.69:5183"];
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5183","http://10.57.1.69:5183","http://10.57.1.35:5183"];
 
 // Socket.IO setup
 const io = socketIo(server, {

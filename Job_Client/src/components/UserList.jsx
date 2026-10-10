@@ -224,7 +224,7 @@ const UserList = ({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-center">
-                          <span className="font-semibold text-gray-900 truncate flex items-center gap-1.5">
+                          <span className=" text-gray-900 truncate flex items-center gap-1.5">
                             {name}
                           </span>
                           {unreadCount > 0 && (
@@ -274,7 +274,7 @@ const UserList = ({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-center">
-                          <span className="font-semibold text-gray-900 truncate flex items-center gap-1.5">
+                          <span className=" text-gray-900 truncate flex items-center gap-1.5">
                             {name}
                           </span>
                           {unreadCount > 0 && (

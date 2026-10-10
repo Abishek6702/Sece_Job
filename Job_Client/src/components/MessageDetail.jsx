@@ -288,7 +288,7 @@ const MessageDetail = ({ isMobile, onBack }) => {
                 )}
               </div>
               <div className={isMobile ? "hidden" : "block"}>
-                <h3 className="font-semibold text-lg flex items-center gap-2">
+                <h3 className=" text-lg flex items-center gap-2">
                   {recipientProfile.onboarding?.firstName &&
                   recipientProfile.onboarding?.lastName
                     ? `${recipientProfile.onboarding.firstName} ${recipientProfile.onboarding.lastName}`
