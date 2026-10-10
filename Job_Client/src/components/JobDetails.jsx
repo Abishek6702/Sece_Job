@@ -64,14 +64,8 @@ const JobDetails = ({ onClose, job, isExpanded }) => {
   const isApplied = appliedJobs.includes(jobId);
 
   return (
-    <div
-      className={`main-container transition-all duration-300 col-span-12  ${
-        isExpanded
-          ? "md:col-span-12 fixed top-0 left-0 w-full h-full bg-white overflow-y-scroll z-50"
-          : "md:col-span-8 p-4"
-      }`}
-    >
-      <div className="content-container h-[95vh] overflow-auto sticky top-2 bg-gray-50 rounded-sm p-12 ">
+    <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+      <div className="content-container p-6 md:p-10">
 
         <div className="company-content">
           <div className="company-name">
@@ -160,12 +154,12 @@ const JobDetails = ({ onClose, job, isExpanded }) => {
 
         <div className="interview-process mt-4">
           <div className=" text-sm">
-            
+
             <p>
               <span className="font-semibold">The Interview Process:</span>{" "}
               {job.interviewProcess}
             </p>
-            
+
           </div>
         </div>
 
@@ -173,33 +167,29 @@ const JobDetails = ({ onClose, job, isExpanded }) => {
           <div className=" flex-wrap gap-x-10 border-b text-gray-400 font-semibold text-lg sticky top-[-50px] py-4 z-10 bg-gray-50 hidden md:flex">
             <button
               onClick={() => scrollTo(descriptionRef)}
-              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${
-                activeSection === "description" ? "text-black border-b-2" : ""
-              }`}
+              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${activeSection === "description" ? "text-black border-b-2" : ""
+                }`}
             >
               Job Description
             </button>
             <button
               onClick={() => scrollTo(requirementRef)}
-              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${
-                activeSection === "requirement" ? "text-black border-b-2" : ""
-              }`}
+              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${activeSection === "requirement" ? "text-black border-b-2" : ""
+                }`}
             >
               Requirement
             </button>
             <button
               onClick={() => scrollTo(benefitRef)}
-              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${
-                activeSection === "benefit" ? "text-black border-b-2" : ""
-              }`}
+              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${activeSection === "benefit" ? "text-black border-b-2" : ""
+                }`}
             >
               Benefit
             </button>
             <button
               onClick={() => scrollTo(overviewRef)}
-              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${
-                activeSection === "overview" ? "text-black border-b-2" : ""
-              }`}
+              className={`hover:text-black focus:text-black cursor-pointer focus:border-b-2 ${activeSection === "overview" ? "text-black border-b-2" : ""
+                }`}
             >
               Overview
             </button>
@@ -285,7 +275,7 @@ const JobDetails = ({ onClose, job, isExpanded }) => {
                 <strong>Type:</strong>{" "}
                 {job.companyId?.company_type || "N/A"}
               </div>
-              
+
               <div>
                 <strong>Revenue:</strong>{" "}
                 {job.companyId?.revenue || "N/A"}
@@ -305,7 +295,7 @@ const JobDetails = ({ onClose, job, isExpanded }) => {
                 <div className="col-span-1 sm:col-span-2 lg:col-span-6 grid grid-cols-2 gap-4 p-2">
                   {job.companyId.images
                     .slice(1, 5)
-                    .map((img, index) => (    
+                    .map((img, index) => (
                       <div key={index} className="h-[150px]">
                         <img
                           src={`${import.meta.env.VITE_API_BASE_URL}/${img}`}

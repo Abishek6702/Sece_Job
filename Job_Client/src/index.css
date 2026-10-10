@@ -3,6 +3,9 @@
 
 @import "tailwindcss";
 
+html{
+  font-size:90%;
+}
 .lato {
   font-family: "Lato";
 }
