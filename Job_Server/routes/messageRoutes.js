@@ -5,6 +5,7 @@ const Message = require("../models/Message");
 const Onboarding = require("../models/onboarding");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/upload");
+const cloudinary = require("../config/cloudinary");
 const User = require("../models/User"); // Assuming you have a User model with 'role' field
 const Company = require("../models/company");
 
@@ -142,23 +143,41 @@ router.get("/:userId", verifyToken, async (req, res) => {
   }
 });
 
-// To post the messages between the users
-router.post("/", verifyToken, upload.single("image"), async (req, res) => {
+router.post("/", verifyToken, (req, res, next) => {
+  upload.single("image")(req, res, (err) => {
+    if (err) {
+      console.error("Upload error:", err);
+      return res.status(400).json({ error: err.message || "File upload error" });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
     const { recipient, content } = req.body;
     const senderId = req.user._id;
 
     let imageUrl = null;
+    let publicId = null;
+    let fileName = null;
+    let fileType = null;
+    let fileSize = null;
     if (req.file) {
-  imageUrl = req.file.path; // Cloudinary URL
-}
-
+      imageUrl = req.file.path; // Cloudinary URL
+      publicId = req.file.filename; // Cloudinary public_id
+      fileName = req.file.originalname;
+      fileType = req.file.mimetype;
+      fileSize = req.file.size;
+    }
 
     const message = new Message({
       sender: senderId,
       recipient,
       content,
       image: imageUrl,
+      publicId,
+      fileName,
+      fileType,
+      fileSize,
     });
     await message.save();
 
@@ -209,6 +228,10 @@ router.patch("/read/:senderId", verifyToken, async (req, res) => {
     req.io.to(String(recipientId)).emit("update-unread-count", {
       senderId: String(senderId),
       increment: false,
+    });
+    // Notify the sender that their messages were read
+    req.io.to(String(senderId)).emit("messages-read", {
+      recipientId: String(recipientId),
     });
     res.json({ success: true });
   } catch (err) {
@@ -413,6 +436,42 @@ router.post("/conversations-for-employer", async (req, res) => {
   }
 });
 
+// Delete a message (hard delete for everyone)
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    const userId = req.user._id;
+    const message = await Message.findById(messageId);
+    
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
 
+    if (message.sender.toString() !== userId.toString()) {
+      return res.status(403).json({ error: "You can only delete your own messages" });
+    }
+
+    // Delete image/file from cloudinary if publicId exists
+    if (message.publicId) {
+      try {
+        let resourceType = "image";
+        if (message.fileType?.startsWith("video/")) {
+          resourceType = "video";
+        } else if (message.fileType && !message.fileType.startsWith("image/")) {
+          resourceType = "raw"; 
+        }
+        await cloudinary.uploader.destroy(message.publicId, { resource_type: resourceType });
+      } catch (cloudinaryError) {
+        console.error("Error deleting file from cloudinary:", cloudinaryError);
+      }
+    }
+
+    await Message.findByIdAndDelete(messageId);
+    res.json({ message: "Message deleted successfully", messageId });
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;

@@ -10,6 +10,11 @@ const allowedResourceTypes = [
   "text/html",
   "image/jpeg",
   "image/png",
+  "image/jpg",
+  "image/webp",
+  "image/gif",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ];
 
 const storage = new CloudinaryStorage({
@@ -21,8 +26,12 @@ const storage = new CloudinaryStorage({
     if (allowedVideoTypes.includes(file.mimetype)) {
       folder = "job_portal/videos";
       resource_type = "video";
-    } else if (allowedResourceTypes.includes(file.mimetype)) {
+    } else if (file.mimetype.startsWith("image/")) {
+      folder = "job_portal/images";
+      resource_type = "image";
+    } else if (allowedResourceTypes.includes(file.mimetype) || file.originalname.match(/\.(doc|docx|pdf|zip)$/i)) {
       folder = "job_portal/resources";
+      resource_type = "raw";
     } else {
       throw new Error("Unsupported file type");
     }
@@ -30,7 +39,7 @@ const storage = new CloudinaryStorage({
     return {
       folder,
       resource_type,
-      public_id: `${Date.now()}_${file.originalname}`,
+      public_id: `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, "_")}`,
     };
   },
 });

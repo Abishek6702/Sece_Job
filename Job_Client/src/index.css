@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+}
+
+html {
+  font-size: 90%;
+  font-family: "Inter", sans-serif;
+}
+
+.lato {
+  font-family: "Lato", sans-serif;
+}
+
+::-webkit-inner-spin-button {
+  display: none;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.joblist_model_bg {
+  background-color: rgba(27, 27, 27, 0.918);
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+.tint {
+  background-color: rgba(0, 0, 0, 0.493);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.background {
+  background: #243153;
+  background: linear-gradient(
+    165deg,
+    rgba(36, 49, 83, 1) 0%,
+    rgba(60, 94, 135, 0.89) 50%
+  );
+}
+.hero {
+  background-color: #f7fcfb;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.image {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: scroll 20s linear infinite;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+@layer utilities {
+  .clip-path-chevron {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 18px) 0,
+      100% 50%,
+      calc(100% - 18px) 100%,
+      0 100%,
+      18px 50%
+    );
+  }
+}
+
+.btn-grad {
+  background: linear-gradient(180deg, #4361ee 1.29%, #263788 100%);
+}

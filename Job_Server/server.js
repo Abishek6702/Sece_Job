@@ -36,7 +36,7 @@ const app = express();
 const server = http.createServer(app);
 
 
-const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:4000"];
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5183","http://10.57.1.69:5183","http://10.57.1.35:5183"];
 
 // Socket.IO setup
 const io = socketIo(server, {
@@ -86,9 +86,26 @@ app.use((req, res, next) => {
   next();
 });
 
+// Track online users (userId -> active socket count)
+const onlineUsers = new Map();
+
 // Socket.IO connection
 io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
+
+  let currentUserId = null;
+
+  const handleUserOnline = (userId) => {
+    if (!userId) return;
+    currentUserId = userId;
+    const count = onlineUsers.get(userId) || 0;
+    onlineUsers.set(userId, count + 1);
+    
+    // Broadcast if this is their first connection
+    if (count === 0) {
+      io.emit("user-online", userId);
+    }
+  };
 
   const token = socket.handshake.auth.token;
   if (token) {
@@ -98,6 +115,7 @@ io.on("connection", (socket) => {
       if (userId) {
         socket.join(userId);
         console.log(`User ${userId} joined room`);
+        handleUserOnline(userId);
       }
     } catch (err) {
       console.error("Token verification failed:", err);
@@ -107,10 +125,26 @@ io.on("connection", (socket) => {
   socket.on("join-user", (userId) => {
     socket.join(userId);
     console.log(`User ${userId} joined room via explicit request`);
+    handleUserOnline(userId);
+  });
+  
+  socket.on("get-online-users", (callback) => {
+    if (typeof callback === "function") {
+      callback(Array.from(onlineUsers.keys()));
+    }
   });
 
   socket.on("disconnect", () => {
     console.log("Client disconnected:", socket.id);
+    if (currentUserId) {
+      const count = onlineUsers.get(currentUserId) || 0;
+      if (count <= 1) {
+        onlineUsers.delete(currentUserId);
+        io.emit("user-offline", currentUserId);
+      } else {
+        onlineUsers.set(currentUserId, count - 1);
+      }
+    }
   });
 
   socket.on("typing", ({ recipientId, senderId }) => {
@@ -119,6 +153,10 @@ io.on("connection", (socket) => {
 
   socket.on("stop-typing", ({ recipientId }) => {
     socket.to(recipientId).emit("stop-typing");
+  });
+
+  socket.on("delete-message", ({ messageId, recipientId }) => {
+    socket.to(recipientId).emit("delete-message", messageId);
   });
 });
 
